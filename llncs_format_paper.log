@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=latex 2018.8.10)  1 MAY 2019 14:18
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=latex 2018.8.10)  1 MAY 2019 19:33
 entering extended mode
 **llncs_format_paper.tex
 
@@ -741,15 +741,17 @@ File: ./fig/PolySparseFormat.eps Graphic file (type eps)
 File: ./fig/inv_unit.eps Graphic file (type eps)
 
 <./fig/inv_unit.eps> [7] [8] [9]
-Overfull \hbox (8.33705pt too wide) in paragraph at lines 454--457
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+Overfull \hbox (8.33705pt too wide) in paragraph at lines 455--458
 [][]\OT1/cmr/m/n/10 In or-der to com-pute the co-ef-fi-cien-t vec-tor $[[]\OML/
 cmm/m/it/10 ; []; []  ; []\OT1/cmr/m/n/10 ] = [[]\OML/cmm/m/it/10 ; []; []  ; [
 ]\OT1/cmr/m/n/10 ] \OMS/cmsy/m/n/10 $
  []
 
-[10]
 File: ./fig/barrel1.eps Graphic file (type eps)
- <./fig/barrel1.eps>
+<./fig/barrel1.eps>
 File: ./fig/barrel2.eps Graphic file (type eps)
  <./fig/barrel2.eps>
 File: ./fig/pipeline_square.eps Graphic file (type eps)
@@ -771,11 +773,11 @@ File: ./fig/generic_mul_illustrate3.eps Graphic file (type eps)
  <./fig/generic_mul_illustrate3.eps>
 File: ./fig/dsnmul_core.eps Graphic file (type eps)
 
-<./fig/dsnmul_core.eps>
-Underfull \vbox (badness 1742) has occurred while \output is active []
+<./fig/dsnmul_core.eps> [13]
+Underfull \vbox (badness 3009) has occurred while \output is active []
 
- [13]
-[14]
+ [14]
+[15]
 File: ./fig/barrel1.eps Graphic file (type eps)
  <./fig/barrel1.eps>
 File: ./fig/barrel2.eps Graphic file (type eps)
@@ -784,35 +786,38 @@ File: ./fig/pipeline_mul.eps Graphic file (type eps)
  <./fig/pipeline_mul.eps>
 File: ./fig/pipeline_mul2.eps Graphic file (type eps)
 
-<./fig/pipeline_mul2.eps> [15]
+<./fig/pipeline_mul2.eps>
 
 LaTeX Warning: Reference `table:success_rate' on page 16 undefined on input lin
-e 785.
+e 788.
 
 [16]
-Overfull \hbox (17.48033pt too wide) in paragraph at lines 798--802
+Underfull \vbox (badness 1117) has occurred while \output is active []
+
+ [17]
+Overfull \hbox (17.48033pt too wide) in paragraph at lines 801--805
 \OT1/cmr/m/n/10 able de-ter-min-is-tic gen-er-a-tion of ran-dom num-ber-s (\OT1
 /cmr/m/it/10 i.e.\OT1/cmr/m/n/10 , the func-tion of $\OML/cmm/m/it/10 SecureRan
 d\OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 \OT1/cmr/m/n/10 )$
  []
 
-[17]
-Overfull \hbox (7.86002pt too wide) detected at line 838
+
+Overfull \hbox (7.86002pt too wide) detected at line 841
+[] \OML/cmm/m/it/10 =Pr\OT1/cmr/m/n/10 ([])
+ []
+
+[18]
+Overfull \hbox (50.24896pt too wide) detected at line 846
 [] \OML/cmm/m/it/10 =Pr\OT1/cmr/m/n/10 ([])
  []
 
 
-Overfull \hbox (50.24896pt too wide) detected at line 843
-[] \OML/cmm/m/it/10 =Pr\OT1/cmr/m/n/10 ([])
- []
+LaTeX Warning: Reference `table:success_rate' on page 19 undefined on input lin
+e 850.
 
 
-LaTeX Warning: Reference `table:success_rate' on page 18 undefined on input lin
-e 847.
-
-
-LaTeX Warning: Reference `table:success_rate' on page 18 undefined on input lin
-e 847.
+LaTeX Warning: Reference `table:success_rate' on page 19 undefined on input lin
+e 850.
 
 File: ./fig/pipeline_rng.eps Graphic file (type eps)
 <./fig/pipeline_rng.eps>
@@ -826,16 +831,17 @@ File: ./fig/BIKE-1.eps Graphic file (type eps)
 File: ./fig/BIKE-2.eps Graphic file (type eps)
  <./fig/BIKE-2.eps>
 File: ./fig/BIKE-3.eps Graphic file (type eps)
- <./fig/BIKE-3.eps> [18]
+ <./fig/BIKE-3.eps> [19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19]
-[20] [21]
+ [20]
+[21]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
+[23]
 ("C:\Users\David\Desktop\BIKE KeyGen\paper\iacrtrans\BIKE_FPGA_paper\llncs_form
-at_paper.bbl" [23] [24] [25]) [26]
+at_paper.bbl" [24] [25]) [26]
 ("C:\Users\David\Desktop\BIKE KeyGen\paper\iacrtrans\BIKE_FPGA_paper\llncs_form
 at_paper.aux")
 
@@ -849,12 +855,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6660 strings out of 495355
- 91791 string characters out of 3183882
- 188911 words of memory out of 3000000
- 9695 multiletter control sequences out of 15000+200000
+ 6661 strings out of 495355
+ 91812 string characters out of 3183882
+ 189915 words of memory out of 3000000
+ 9696 multiletter control sequences out of 15000+200000
  15661 words of font info for 57 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  36i,18n,38p,2227b,479s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on llncs_format_paper.dvi (26 pages, 124652 bytes).
+Output written on llncs_format_paper.dvi (26 pages, 126060 bytes).

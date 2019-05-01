@@ -82,6 +82,12 @@ P.~Gaborit, A.~Otmani, and H.~T. Kalachi.
   based on gabidulin codes.
 \newblock {\em Designs, Codes and Cryptography}, 86(7):1391--1403, 2018.
 
+\bibitem{georgieva2015toward}
+M.~Georgieva and F.~de~Portzamparc.
+\newblock Toward secure implementation of mceliece decryption.
+\newblock In {\em International Workshop on Constructive Side-Channel Analysis
+  and Secure Design}, pages 141--156. Springer, 2015.
+
 \bibitem{ghosh2012speed}
 S.~Ghosh, J.~Delvaux, L.~Uhsadel, and I.~Verbauwhede.
 \newblock A speed area optimized embedded co-processor for mceliece

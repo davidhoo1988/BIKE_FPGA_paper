@@ -467,7 +467,7 @@ the row number of the non-zero entry for every column of $\text{BT}^n$. In this 
 \]
 
 \begin{theorem}
-For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum a_ix^i \in \mathcal{R}$, each coefficient $\widetilde{a_{i}}$ is updated by $a_{j}$ in $[{a_{r-1}},{a_{r-2}},\cdots,{a_0}]$ as:
+For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum a_ix^i \in \mathcal{R}$, each $\widetilde{a_{i}}$ is updated by $a_{j}$ in $[{a_{r-1}},{a_{r-2}},\cdots,{a_0}]$ as:
 \[
     \widetilde{a_{i}} = a_{i2^{-n}\bmod r}
 \]
