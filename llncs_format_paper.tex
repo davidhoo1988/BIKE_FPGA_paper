@@ -473,7 +473,7 @@ For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum 
 \]
 \end{theorem}
 
-Note that the data is typically processed digit by digit on hardware. However, sometimes we want to extract the precise bit in the digit. Squaring is such an example where the result is indeed computed bit by bit. To preserve the constant time execution while avoiding the timing performance degration, Barrel shifter is used to rotate the desired bit within $\lceil log_2d\rceil$ cycles.
+Note that the data is typically processed digit by digit on hardware. However, sometimes we want to extract the precise bit in the digit. Squaring is such an example where the result is indeed computed bit by bit. To preserve the constant time execution while avoiding the timing performance degration, Barrel shifter is used to rotate the desired bit within $\lceil log_2d\rceil$ cycles. By doing this, the computational steps for squaring $(a(x))^{2^n}$ are constant and independent of the value of $n$.
 
 Fig.~\ref{fig:pipeline_squ} depicts the pipeline stages for computing the continuous square. The basic pattern is: read from memory the entry which contains $a_{i2^{-n}}$, then load it to the Barrel shifter, rotate to correct bit position, and finally write the result back to memory. In general, such pattern repeats $r$ times and hence the cycle counts for continuous square are
 \[
@@ -518,7 +518,7 @@ Next, the above pipeline can be further improved based on the observation that r
 \end{figure*}
 
 
-\subsubsection{Generic Multiplication in $\mathbb{F}_2[x]/(x^r+1)$}
+\subsubsection{Generic Multiplication in $\mathbb{F}_2[x]/(x^r+1)$} Here, `generic' refers to multiplication of two random dense polynomials. 
 For two dense polynomials $a(x)$ and $b(x)$, their multiplication is represented as:
 \begin{align}
     a(x)\cdot b(x) &= (a_{r-1}x^{r-1}+\cdots + a_{1}x + a_0)\cdot(b_{r-1}x^{r-1}+\cdots + b_{1}x + b_0)\\
@@ -549,7 +549,7 @@ x^{r-1}
 \]
 $\text{BT}_{mul}$ is a $r\times r$ matrix where each column/row is a cyclic form of the vector $[b_{r-1},b_{r-2},\ldots, b_{1},b_{0}]$:
 \[
-\text{BT} =
+\text{BT}_{mul} =
 \left[ \begin{array}{cccccc}
 b_{0}&b_{1}&\cdots&b_{d-1}&\cdots &b_{r-1} \\
 b_{r-1}&b_{0}&\cdots&b_{d-2}&\cdots &b_{r-2} \\
@@ -559,9 +559,10 @@ b_{1}&b_{2}&\cdots&b_{d}&\cdots &b_{0} \\
 \end{array}
 \right ]
 \]
-BT is redundant since the blocks along each diagonal is identical (for example, $BT[0:d-1,0:d-1] = BT[d:2d-1,d:2d-1] = \ldots$). This way, BT is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Fig.~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute them. By eliminating such redundancy, the communication overhead for loading $\text{BT}_{mul}$ is minimized and therefore, faster pipeline scheduling is possible in the generic multiplication.
+$\text{BT}_{mul}$ is redundant since the blocks along each diagonal are identical (for example, $\text{BT}_{mul}[0:d-1,0:d-1] = \text{BT}_{mul}[d:2d-1,d:2d-1] = \ldots$). This way, $\text{BT}_{mul}$ is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Fig.~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute them. By eliminating such redundancy, the communication overhead for loading $\text{BT}_{mul}$ is minimized and therefore, faster pipeline scheduling is possible in the generic multiplication.
 
-A formal description for the proposed generic multiplication can be found in Alg.~\ref{alg:generic_mul}. It is seen that the core function is the multiplication of a $d$-bit vector $A[k]$ of $a(x)$ and a block matrix BT$[i,j]$ from BT:
+A formal description for the proposed generic multiplication can be found in Alg.~\ref{alg:generic_mul}. It is seen that this algorithm is computed in $\mathcal{O}(n^2)$ with $n=\lceil r/d\rceil$, and therefore, for fixed BIKE secure parameters, the computational time is also fixed.  
+Moreover, the core function is the multiplication of a $d$-bit vector $A[k]$ of $a(x)$ and a block matrix $\text{BT}_{mul}$$[i,j]$ from $\text{BT}_{mul}$:
 \[
     [a_j,a_{j+1},\ldots,a_{j+d-1}]\cdot
 \left[ \begin{array}{ccccc}
@@ -579,22 +580,22 @@ We design a dedicate core unit for the multiplication above in one clock cycle, 
  \KwIn{dense polynomials $a(x),b(x) \in \mathbb{F}_2[x]/(x^r+1)$.}
  \KwOut{$a(x)\cdot b(x)\in \mathbb{F}_2[x]/(x^r+1)$}
     Reformulate $a(x)$ to block matrix view as $A[0],A[1],A[2],\ldots, A[n-1]$ where $n=\lceil r/d \rceil$, $d$ is the number of bits used in the row vector $A[i]$.\;
-    Compute partial blocks from the transformation matrix BT associated with $b(x)$: $BT[0,0]$, $BT[0,1],BT[0,2],\ldots,BT[0,n-1]$ and $BT[1,0]$, $BT[2,0],\ldots,BT[n-1,0]$\;
+    Compute partial blocks from the transformation matrix $\text{BT}_{mul}$ associated with $b(x)$: $\text{BT}_{mul}[0,0]$, $\text{BT}_{mul}[0,1],\text{BT}_{mul}[0,2],\ldots,\text{BT}_{mul}[0,n-1]$ and $\text{BT}_{mul}[1,0]$, $\text{BT}_{mul}[2,0],\ldots,\text{BT}_{mul}[n-1,0]$\;
     The multiplication result is presented again in block matrix view $C[0],C[1],C[2],\ldots, C[n-1]$\;
     /*Diagonal Computation*/\;
     \For{$i \gets 0 \textbf{ to } n-1$}{
-        $C[i] \gets A[i]\cdot BT[0,0]$\;
+        $C[i] \gets A[i]\cdot \text{BT}_{mul}[0,0]$\;
     }
     /*Upper Triangle Computation*/\;
     \For{$i \gets 1 \textbf{ to } n-1$}{
         \For{$j \gets 0 \textbf{ to } n-1-i$}{
-           $C[i+j] \gets C[i+j] + A[j]\cdot BT[0,i]$\;
+           $C[i+j] \gets C[i+j] + A[j]\cdot \text{BT}_{mul}[0,i]$\;
         }
     }
     /*Lower Triangle Computation*/\;
     \For{$i \gets 1 \textbf{ to } n-1$}{
         \For{$j \gets 0 \textbf{ to } n-1-i$}{
-           $C[j] \gets C[j] + A[i+j]\cdot BT[i,0]$\;
+           $C[j] \gets C[j] + A[i+j]\cdot \text{BT}_{mul}[i,0]$\;
         }
     }
     \Return {the vector $C=[C[0],C[1],\ldots,C[n-1]]$ as the coefficients of $c(x)=a(x)b(x)$\;}
@@ -689,7 +690,7 @@ Fig.~\ref{fig:pipeline_mul} depicts the basic pipeline schedule where the total 
 \[
     |I|\cdot\lceil r/d\rceil\cdot (10+\lceil log_2(d)\rceil)
 \]
-and optimized cycle counts are
+The cycle counts can be further improved if Read\_g is hidden in Rotate and Load is hidden in Add+Write. The new arrangement for pipelining  can be found in Fig.~\ref{fig:pipeline_mul2} and thence the optimized cycle counts are
 \[
     |I|(\lceil r/d\rceil\cdot (2+\lceil log_2(d)\rceil) + 8)
 \]
@@ -965,7 +966,7 @@ BIKE-2 is significantly more computationally intensive than BIKE-1 and BIKE-3 du
 
 
 
-In this section, we present our BIKE implementation results in FPGA. All the results are obtained post place-and-route for a  Xilinx high-end FPGA device --- Virtex XC7V585T  and a low-end FPGA device ---  Spartan XC7S50 FPGA using Xilinx Vivado v2018.1 which demonstrate the compactness of our design on both platforms. To the best of our knowledge, this work is the first one that reports the performance results of BIKE key generation on an FPGA platform. As shown in Table~\ref{table:expresult}, our BIKE-1 key generator on the Virtex-7 device runs at 350~MHz and generates one key pair  in $95,506$ cycles, that is 0.273 $ms$ of operation time. It runs on the Spartan-7 device at 160~MHz and generates one key pair in 0.597~$ms$. The area footprint is low (612 slices and 544 slices on Virtex-7 and Spartan-7 respectively) as our proposed architecture executes all operations  in digit level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources. Our BIKE-3 key generator performs even better: It runs faster in $0.273$ $ms$ and $0.492$ $ms$ on Virtex-7 and Spartan-7, respectively. The slice overheads are also lower as BIKE-3 carries one copy of the core unit, sparse-times-dense multiplication whereas BIKE-1 has two of them. The cycle count is slightly worse than that of BIKE-1 as BIKE-3 requires an extra polynomial addition to compute the secret key $f_0$.
+In this section, we present our BIKE implementation results in FPGA. All the results are obtained post place-and-route for a  Xilinx high-end FPGA device --- Virtex XC7V585T  and a low-end FPGA device ---  Spartan XC7S50 FPGA using Xilinx Vivado v2018.1 which demonstrate the time and the area efficiency of our design on both platforms. To the best of our knowledge, this work is the first one that reports the performance results of BIKE key generation on an FPGA platform. As shown in Table~\ref{table:expresult}, our BIKE-1 key generator on the Virtex-7 device runs at 350~MHz and generates one key pair  in $95,506$ cycles, that is 0.273 $ms$ of operation time. It runs on the Spartan-7 device at 160~MHz and generates one key pair in 0.597~$ms$. The area footprint is also low (612 slices and 544 slices on Virtex-7 and Spartan-7 respectively) as our proposed architecture uses the proposed optimized sparse-times-dense multiplication, and executes all operations in digit level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources. Our BIKE-3 key generator performs even better: It runs faster in $0.273$ $ms$ and $0.492$ $ms$ on Virtex-7 and Spartan-7, respectively. The slice overheads are also lower as BIKE-3 carries one copy of the core unit, sparse-times-dense multiplication whereas BIKE-1 has two of them. The cycle count is slightly worse than that of BIKE-1 as BIKE-3 requires an extra polynomial addition to compute the secret key $f_0$.
 
 On the other hand, our BIKE-2 key generator runs at 320 MHz and 150 MHz on the Virtex-7 and Spartan-7 device respectively, and generates a key pair in $2,150,121$ cycles. This cycle count is equivalent to $6.719$ ms and $14.334$ ms of operating time for Virtex-7 and Spartan-7, respectively. It is noteworthy to mention that BIKE-2 timing performance is  two orders of magnitude worse than BIKE-1 and BIKE-3.  Such performance gap is due to the costly polynomial inversion in BIKE-2. Nevertheless, by using the proposed generic multiplication algorithm and continuous square algorithm, the BIKE-2 timing is significantly improved and preserves the constant-time execution. The slice usage is also conservative, increasing by 2-3 times compared with BIKE-1 and BIKE-2.  The memory overhead is larger than that of BIKE-1/2 since inversion requests to save some ephemeral variables.
 
@@ -1025,7 +1026,7 @@ It is seen that for almost the same security level, Goppa codes require much mor
 Conversely, our work based on quasi-cyclic codes is identified as a scalable lightweight design which shares high-speed and low-storage characteristics.
 
 \section{Conclusions}
-This paper presented a lightweight yet fast hardware-based key generator of a key encapsulation mechanism based on MDPC, called BIKE, both of which are second-round candidates for the NIST PQC competition. Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. This work also presented optimized pipeline scheduling for fast execution of the core functions. The methods above are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
+This paper presented a constant-time hardware-based key generator for BIKE which is a second-round candidate for the NIST PQC competition. Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
 
 %
 % ---- Bibliography ----
