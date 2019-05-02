@@ -871,6 +871,22 @@ Then, the multiplication result can be obtained by extracting $i\in I$ rows of $
 %\end{tabular}
 %\end{table}
 
+% \begin{figure*}[!tb]
+% \centering
+% \begin{subfigure}[t]{0.5\textwidth}\centering
+% \includegraphics[width=\textwidth]{./fig/barrel1.eps}
+% \caption{Barrel shifter constructed by combinational logic}
+% \label{fig:L1_ctrl}
+% \end{subfigure}
+% \hspace{1em}
+% \begin{subfigure}[t]{0.4\textwidth}\centering
+% \includegraphics[width=\textwidth]{./fig/barrel2.eps}
+% \caption{Barrel shifter constructed by sequential logic}
+% \label{fig:FLIP_ctrl}
+% \end{subfigure}
+% \caption{Barrel shifter used in our key generator to ensure constant execution of multiplication and squaring}
+% \end{figure*}
+
 \begin{figure*}[!tb]
 \centering
 \begin{subfigure}[t]{0.47\textwidth}\centering
@@ -919,21 +935,7 @@ and the optimized cycle count is
 \]
 Table~\ref{tab::sparse} compares the two pipeline scheduling schemes above. The optimized pipeline can improve the cycle count by about 50\%.
 
-\begin{figure*}[!tb]
-\centering
-\begin{subfigure}[t]{0.5\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/barrel1.eps}
-\caption{Barrel shifter constructed by combinational logic}
-\label{fig:L1_ctrl}
-\end{subfigure}
-\hspace{1em}
-\begin{subfigure}[t]{0.4\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/barrel2.eps}
-\caption{Barrel shifter constructed by sequential logic}
-\label{fig:FLIP_ctrl}
-\end{subfigure}
-\caption{Barrel shifter used in our key generator to ensure constant execution of multiplication and squaring}
-\end{figure*}
+
 
 
 
@@ -1164,6 +1166,26 @@ More importantly, the probability that a single run of Algorithm~\ref{alg:prng2}
 \caption{Timing diagram used for generating a random polynomial with odd weight}
 \end{figure*}
 
+\begin{table}[!tb]\centering
+\caption{Success Rate for generating a random polynomial with odd weight using Algorithm~\ref{alg:prng2}}\label{table:success_rate}
+\begin{tabular}{cc|cccc}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+ \textbf{Category}        &             & no repetition & 1 repetition & 2 repetitions & success rate \\\hline
+\multirow{ 2}{*}{128-bit} &  BIKE-[1,2] & $0.7826$ & $0.1926$  & $0.0228$  & $0.9981$\\
+                    &  BIKE-[3] & $0.8179$ & $0.1649$  & $0.0159$  & $0.9989$\\
+  \hline
+\multirow{ 2}{*}{192-bit} &  BIKE-[1,2] & $0.7671$ & $0.2040$  & $0.0264$  & $0.9976$\\
+                    &  BIKE-[3] & $0.7992$ & $0.1796$  & $0.0196$  & $0.9985$\\
+  \hline
+\multirow{ 2}{*}{256-bit} &  BIKE-[1,2] & $0.7521$ & $0.2148$  & $0.0300$  & $0.9970$\\
+                    &  BIKE-[3] & $0.7840$ & $0.1911$  & $0.0228$  & $0.9981$\\
+  \hline
+\end{tabular}
+\end{table}
+
+
+
 %Now assume $t$ (typically small compared with $wt$) repetitions happen after a single run of Algorithm~\ref{alg:prng2}. The number of possible $t$ repetitions within $wt+t$ times of random number generations is:
 %\[
 %    \frac{r!}{(r-wt)!} \cdot wt^t
@@ -1197,6 +1219,24 @@ The average clock cycles for generating a qualified rand number is $T_{\text{PRN
 \end{tabular}
 \end{table}
 
+\begin{table}[!tb]\centering
+\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}
+\begin{tabular}{cc|ccccc}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+ \textbf{Category}        &             & Total & $r$  & $w_t$  & $Pr(\text{rand} < r)$& $Pr(\text{Algorithm~\ref{alg:prng2} succeeds})$\\\hline
+\multirow{ 2}{*}{128-bit} &  BIKE-[1,2] & $1279$ & $10163$  & $71$  & $0.62$ & $0.9981$\\
+                          &  BIKE-[3] & $1062$ & $11027$  & $67$  & $0.67$& $0.9989$\\
+  \hline
+\multirow{ 2}{*}{192-bit} &  BIKE-[1,2] & $2120$ & $19853$  & $103$  &$0.60$& $0.9976$\\
+                          &  BIKE-[3] & $1847$ & $21683$  & $99$  &$0.66$& $0.9985$\\
+  \hline
+\multirow{ 2}{*}{256-bit} &  BIKE-[1,2] & $2801$ & $32749$  & $137$  &$0.99$& $0.9970$\\
+                          &  BIKE-[3] & $3350$ & $36131$  & $133$  &$0.55$& $0.9981$\\
+  \hline
+\end{tabular}
+\end{table}
+
 Therefore, the total cycle count for generating a random polynomial with odd weight (Algorithm~\ref{alg:prng1}) are
 \[
     \lceil r/d\rceil\cdot T_{\text{PRNG}} + 1
@@ -1221,23 +1261,7 @@ If a dual-port RAM is used, the above cycle count estimation can be further impr
 \]
 where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$
 
-\begin{table}[!tb]\centering
-\caption{Success Rate for generating a random polynomial with odd weight using Algorithm~\ref{alg:prng2}}\label{table:success_rate}
-\begin{tabular}{cc|cccc}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
- \textbf{Category}        &             & no repetition & 1 repetition & 2 repetitions & success rate \\\hline
-\multirow{ 2}{*}{128-bit} &  BIKE-[1,2] & $0.7826$ & $0.1926$  & $0.0228$  & $0.9981$\\
-                    &  BIKE-[3] & $0.8179$ & $0.1649$  & $0.0159$  & $0.9989$\\
-  \hline
-\multirow{ 2}{*}{192-bit} &  BIKE-[1,2] & $0.7671$ & $0.2040$  & $0.0264$  & $0.9976$\\
-                    &  BIKE-[3] & $0.7992$ & $0.1796$  & $0.0196$  & $0.9985$\\
-  \hline
-\multirow{ 2}{*}{256-bit} &  BIKE-[1,2] & $0.7521$ & $0.2148$  & $0.0300$  & $0.9970$\\
-                    &  BIKE-[3] & $0.7840$ & $0.1911$  & $0.0228$  & $0.9981$\\
-  \hline
-\end{tabular}
-\end{table}
+
 
 
 
@@ -1245,6 +1269,7 @@ where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$
 
 \section{Key Generator Architecture}
 \label{sec::keygen}
+
 \begin{figure*}[!tb]
 \centering
 \begin{subfigure}[t]{0.47\textwidth}\centering
@@ -1266,39 +1291,123 @@ where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$
 \caption{Overview of the proposed BIKE architectures}
 \end{figure*}
 
-\begin{table}[!tb]\centering
-\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}
-\begin{tabular}{cc|ccccc}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
- \textbf{Category}        &             & Total & $r$  & $w_t$  & $Pr(\text{rand} < r)$& $Pr(\text{Algorithm~\ref{alg:prng2} succeeds})$\\\hline
-\multirow{ 2}{*}{128-bit} &  BIKE-[1,2] & $1279$ & $10163$  & $71$  & $0.62$ & $0.9981$\\
-                          &  BIKE-[3] & $1062$ & $11027$  & $67$  & $0.67$& $0.9989$\\
-  \hline
-\multirow{ 2}{*}{192-bit} &  BIKE-[1,2] & $2120$ & $19853$  & $103$  &$0.60$& $0.9976$\\
-                          &  BIKE-[3] & $1847$ & $21683$  & $99$  &$0.66$& $0.9985$\\
-  \hline
-\multirow{ 2}{*}{256-bit} &  BIKE-[1,2] & $2801$ & $32749$  & $137$  &$0.99$& $0.9970$\\
-                          &  BIKE-[3] & $3350$ & $36131$  & $133$  &$0.55$& $0.9981$\\
-  \hline
-\end{tabular}
-\end{table}
+Our key generator performs the computations in BIKE-1/2/3 as shown in Algorithm~\ref{alg:bike1_keygen}, Algorithm~\ref{alg:bike2_keygen}, and Algorithm~\ref{alg:bike3_keygen}. The top-level architectures are depicted in Figure~\ref{fig:bike1}, \ref{fig:bike2}, \ref{fig:bike3}
+respectively. 
+BIKE-1 and BIKE-3 share a similar architecture 
+where the sparse polynomial multiplication module 
+(SMUL\_CTRL in Section~\ref{sub::sparse}) is the core building block. 
+The difference within the two architectures is that 
+BIKE-1 requires two SMUL\_CTRL modules 
+whereas BIKE-3 requires only one SMUL\_CTRL module and one additional
+addition unit. 
+In our design, the two sparse polynomial multiplications 
+in BIKE-1 are performed in parallel to improve the 
+timing efficiency. 
+Therefore, the total cycle count of BIKE-1 
+is close to that of BIKE-3. 
+Among BIKE-1/2/3, the architecture of BIKE-3 is 
+the most compact while the critical path is the shortest,
+this is mainly due to the simplicity of the architecture
+since only one SMUL\_CTRL is instantiated in BIKE-3. 
+The modules h\_ctrl and g\_ctrl in BIKE-3 represents the
+control logic for
+generating the sparse polynomials $h_0,h_1$ and 
+the dense polynomial $g$, as discussed in Section~\ref{}.
 
-Our key generator performs the computations in BIKE-1/2/3 as shown in Algorithm~\ref{alg:bike1_keygen}, Algorithm~\ref{alg:bike2_keygen}, and Algorithm~\ref{alg:bike3_keygen}. The top-level architecture is depicted in Figure~\ref{fig:bike1}, \ref{fig:bike2}, \ref{fig:bike3}. BIKE-1 and BIKE-2 share a similar architecture where sparse polynomial multiplication (MUL\_CTRL) is the core functionality. The difference is that BIKE-1 requires two sparse polynomial multiplications whereas BIKE-3 requires only one sparse polynomial multiplication plus one addition. In our design, the two multiplications in BIKE-1 are performed simultaneously to improve the timing score and thus the total cycle count of BIKE-1 is close to that of BIKE-3. However, BIKE-3 is the lightest design with the shortest critical path since only one copy of MUL\_CTRL is instantiated here. The module h\_ctrl and g\_ctrl assist to generate the sparse polynomials $h_0,h_1$ and the dense polynomial $g$ as we have discussed in Section 2.6.
+The key generator architecture for BIKE-2 
+is significantly more expensive compared to 
+BIKE-1 and BIKE-3.
+This is mainly due to the requirement of a
+polynomial inversion step in the key generation process,
+therefore a INV\_CTRL as described in Section~\ref{sub::inverse} is needed. 
+% INV\_CTRL consists of the arithmetic core for continuous square and generic multiplication as illustrated in Section 2.3 and 2.4. 
+After the inversion operation, the inversed polynomial of
+$h_0$ is obtained, which is represented as $h_0^{-1}$.
+Then, the sparse polynomial multiplication begins
+by triggering the SMUL\_CTRL module with polynomials
+$h_0^{-1}$ and $h_1$ as inputs. 
+After the SMUL\_CTRL module finishes,
+the result is sent out as the output,
+which is the secret key $h=h_0^{-1}h_1$.
+% After inversion, the dense polynomial $h_0^{-1}$ is obtained and finally, the sparse polynomial multiplication is performed on SMUL\_CTRL to extract the secret key $h=h_0^{-1}h_1$.
 
-BIKE-2 is significantly more computationally intensive than BIKE-1 and BIKE-3 due to the polynomial inversion. The inversion is performed on the module INV\_CTRL as Algorithm~\ref{algo:ITA} describes. INV\_CTRL consists of the arithmetic core for continuous square and generic multiplication as illustrated in Section 2.3 and 2.4. After inversion, the dense polynomial $h_0^{-1}$ is obtained and finally, the sparse polynomial multiplication is performed on MUL\_CTRL to extract the secret key $h=h_0^{-1}h_1$.
+Similar optimizations as proposed to schedule pipelines
+as described in Section~\ref{} are applied to the 
+modules within the BIKE key generator as well: 
+% optimization technique is applied to 
+g\_ctrl, h\_ctrl, SMUL\_CTRL, and INV\_CTRL.
+These optimizations improves the timing efficiency for the
+key generator. 
+The optimized piepline schedules are depicted in Figure~\ref{fig:pipeline_squ2}, 
+~\ref{fig:pipeline_mul2}, and \ref{fig:pipeline_rng3}. 
+% As dual-port RAM is instantiated, we are able to load two successive data from secret/public keyRAM in one clock cycle to slice registers for fast processing.
 
- The pipeline optimization technique is applied to g\_ctrl, h\_ctrl, MUL\_CTRL, INV\_CTRL for enhancing the timing performance. The detailed schedules have been depicted in Figure \ref{fig:pipeline_squ2}, ~\ref{fig:pipeline_mul2}, \ref{fig:pipeline_rng3}. As dual-port RAM is instantiated, we are able to load two successive data from secret/public key RAM in one clock cycle to slice registers for fast processing.
+
 
 \section{Performance Evaluations}
 \label{sec::evaluation}
+%
+In this section, we present the hardware implementation results of the 
+key generator of BIKE on FPGAs. 
+All the results are obtained post place-and-route for a 
+Xilinx high-end FPGA device --- Virtex XC7V585T 
+and a low-end FPGA device --- Spartan XC7S50 FPGA 
+using the Xilinx Vivado v2018.1 synthesis tool.
+% which demonstrate the time and the area efficiency of our design on both platforms. 
+To the best of our knowledge, this work is the first 
+that reports the performance results of BIKE key generator 
+on an FPGA platform. 
+{\color{red} which tool did you use for simulation?}
 
+As shown in Table~\ref{table:expresult}, 
+for our BIKE-1 key generator,
+when the design is synthesized on the Virtex-7 device, 
+it reports a maximum frequency of 350~MHz. 
+Our simulation results show that it takes $95,506$ cycles 
+to generate one key pair for BIKE-1.
+Therefore, to generate a complete key pair for BIKE-1,
+only 0.273 $ms$ are needed. 
+When synthesized for a lower-end Spartan-7 device,
+our design is reported to be able to run at 160~MHz 
+which leads to a key pair generation time of 0.597~$ms$. 
+The area consumption of the key generator
+for BIKE-1 is very low: Only 612 slices and 544 slices 
+are needed on Virtex-7 and Spartan-7 respectively. 
+% as our proposed architecture uses the proposed optimized sparse polynomial multiplication, and executes all operations in digit level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources. 
+Compared to BIKE-1, the key generator for BIKE-3
+is more compact since only one sparse polynomial
+multiplication module is needed instead of two.
+However, BIKE-3 takes slightly more cycles 
+compared to BIKE-1 to generate a key pair
+due to the additional polynomial addition 
+needed for computing the secret key $f_0$ 
+in BIKE-3.
+In terms of run time,
+the performance of the BIKE-3 key generator 
+is slightly better than BIKE-1: 
+The key pair generation take $0.273$ $ms$ and $0.492$ $ms$ 
+respectively on Virtex-7 and Spartan-7 FPGAs. 
+% The slice overheads are also lower as BIKE-3 carries one copy of the core unit, sparse polynomial multiplication whereas BIKE-1 has two of them. The cycle count is slightly worse than that of BIKE-1 as BIKE-3 requires an extra polynomial addition to compute the secret key $f_0$.
 
-
-
-In this section, we present our BIKE implementation results in FPGA. All the results are obtained post place-and-route for a  Xilinx high-end FPGA device --- Virtex XC7V585T  and a low-end FPGA device ---  Spartan XC7S50 FPGA using Xilinx Vivado v2018.1 which demonstrate the time and the area efficiency of our design on both platforms. To the best of our knowledge, this work is the first one that reports the performance results of BIKE key generation on an FPGA platform. As shown in Table~\ref{table:expresult}, our BIKE-1 key generator on the Virtex-7 device runs at 350~MHz and generates one key pair in $95,506$ cycles, that is 0.273 $ms$ of operation time. It runs on the Spartan-7 device at 160~MHz and generates one key pair in 0.597~$ms$. The area footprint is also low (612 slices and 544 slices on Virtex-7 and Spartan-7 respectively) as our proposed architecture uses the proposed optimized sparse polynomial multiplication, and executes all operations in digit level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources. Our BIKE-3 key generator performs even better: It runs faster in $0.273$ $ms$ and $0.492$ $ms$ on Virtex-7 and Spartan-7, respectively. The slice overheads are also lower as BIKE-3 carries one copy of the core unit, sparse polynomial multiplication whereas BIKE-1 has two of them. The cycle count is slightly worse than that of BIKE-1 as BIKE-3 requires an extra polynomial addition to compute the secret key $f_0$.
-
-On the other hand, our BIKE-2 key generator runs at 320 MHz and 150 MHz on the Virtex-7 and Spartan-7 device respectively, and generates a key pair in $2,150,121$ cycles. This cycle count is equivalent to $6.719$ ms and $14.334$ ms of operating time for Virtex-7 and Spartan-7, respectively. It is noteworthy to mention that BIKE-2 timing performance is  two orders of magnitude worse than BIKE-1 and BIKE-3.  Such a performance gap is due to the costly polynomial inversion in BIKE-2. Nevertheless, by using the proposed generic multiplication algorithm and continuous square algorithm, the BIKE-2 timing is significantly improved and preserves the constant-time execution. The slice usage is also conservative, increasing by 2-3 times compared with BIKE-1 and BIKE-2.  The memory overhead is larger than that of BIKE-1/2 since inversion requests to save some ephemeral variables.
+For the BIKE-2 key generator, the synthesis tool reports
+frequencies as 320 MHz and 150 MHz on the Virtex-7 and Spartan-7 devices respectively.
+A full key generation in BIKE-2 takes $2,150,121$ cycles 
+which leads to run times of $6.719$ ms and $14.334$ ms respectively
+on Virtex-7 and Spartan-7 devices. 
+As we can see from Table~\ref{table:expresult}, 
+BIKE-2 is around two orders of magnitude slower compared to BIKE-1 and BIKE-3.  
+This performance gap between BIKE-2 and BIKE-1/3 is mainly
+due to the requirement of an expensive polynomial inversion operation in BIKE-2
+while in BIKE-1/3 it is not needed. 
+% Nevertheless, by using the proposed generic multiplication algorithm and continuous square algorithm, the BIKE-2 timing is significantly improved and preserves the constant-time execution. 
+Due to the existance of the polynomial inversion module, 
+the area utilization of BIKE-2 key generator is much 
+bigger compared to BIKE-1/3 as well. 
+% The slice usage is also conservative, increasing by 2-3 times compared with BIKE-1 and BIKE-2.  
+Moreover, the memory overhead in BIKE-2 key generator
+is also larger than that of BIKE-1/3 since 
+the polynomial inversion module 
+requests to save a few ephemeral variables.
 
 In the following, we compare our work with state-of-arts software implementations on either CPUs or micro-controllers. It is worth noting that the comparison of our results with other software implementations is not fair since the platform used differs significantly. We attempt to compare the performance in the metric of cycle count which is a platform independent indicator, given in Table \ref{table:compare}.
 First, we compare with the standard BIKE specification implementation \cite{aragon2017bike} which is also submitted for NIST PQC standardization. The experiments from \cite{von2014lightweight} is equipped with an Intel i5 CPU running at 1.8 GHz and 32 GB RAM, 32K L1d and L1i cache, 256K L2 cache, and 4096K L3 cache. Their implementation is non-constant time and is much slower than ours. The micro-controller implementation from \cite{maurich2015implementing} is performed on ARM Cortex-M4 and uses obsolete BIKE-2 system parameters with 80-bit security level which is not recommended in the NIST PQC standardization. Despite the insufficiently 80-bit SL parameters used in \cite{maurich2015implementing}, their implementation is non-constant time and costs huge cycle count (148.5 million).  An optimized software implementation for BIKE is reported in \cite{drucker2017toolbox}. This additional implementation is equipped with an Intel i5 CPU running at 3.0 GHz and 70 GB RAM, 32K L1d and L1i cache, 1024K L2 cache, and 25,344K L3 cache. The core functionality is written in x86 assembly and wrapped by assisting C code.
