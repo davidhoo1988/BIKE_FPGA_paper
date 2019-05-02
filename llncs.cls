@@ -351,10 +351,11 @@
                        {-18\p@ \@plus -4\p@ \@minus -4\p@}%
                        {-0.5em \@plus -0.22em \@minus -0.1em}%
                        {\normalfont\normalsize\bfseries\boldmath}}
-\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-                       {-12\p@ \@plus -4\p@ \@minus -4\p@}%
+\renewcommand\paragraph{\@startsection{paragraph}{3}{\z@}%
+%                       {-18\p@ \@plus -4\p@ \@minus -4\p@}%
+                       {-10\p@ \@plus -4\p@ \@minus -4\p@}%
                        {-0.5em \@plus -0.22em \@minus -0.1em}%
-                       {\normalfont\normalsize\itshape}}
+                       {\normalfont\normalsize\bfseries\boldmath}}
 \renewcommand\subparagraph[1]{\typeout{LLNCS warning: You should not use
                   \string\subparagraph\space with this class}\vskip0.5cm
 You should not use \verb|\subparagraph| with this class.\vskip0.5cm}
