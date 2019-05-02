@@ -1,0 +1,237 @@
+\relax 
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\citation{chen2016report}
+\citation{shor1997polynomial}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {title}{FPGA-Based Key Generator for Post-Quantum Key Encapsulation Based on Quasi-Cyclic Codes}{1}{chapter.1}}
+\@writefile{toc}{\authcount {5}}
+\@writefile{toc}{\contentsline {author}{Jingwei Hu \and Wen Wang \and Ray Cheung \and San Ling \and Huaxiong Wang}{1}{chapter.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1.1}}
+\citation{mceliece1978public}
+\citation{goppa1970new}
+\citation{niederreiter1986knapsack}
+\citation{li1994equivalence}
+\citation{monico2000using}
+\citation{otmani2010cryptanalysis}
+\citation{misoczki2009compact}
+\citation{londahl2012new}
+\citation{baldi2016enhanced}
+\citation{loidreau2017new,gaborit2018polynomial}
+\citation{baldi2013optimization,baldi2008new,misoczki2013mdpc}
+\citation{baldi2018ledakem}
+\citation{barreto2017cake}
+\citation{aragon2017bike}
+\citation{fabvsivc2017reaction,guo2016key}
+\citation{nilsson2019error}
+\citation{eisenbarth2009microeliece}
+\citation{shoufan2010novel}
+\citation{shoufan2010novel}
+\citation{ghosh2012speed}
+\citation{heyse2012towards}
+\citation{wang2017fpga}
+\citation{wang2018fpga}
+\@writefile{toc}{\contentsline {subsubsection}{Related work.}{2}{section*.2}}
+\citation{heyse2013smaller}
+\citation{von2014lightweight}
+\citation{hu2017area}
+\@writefile{toc}{\contentsline {subsubsection}{Contributions.}{3}{section*.3}}
+\@writefile{toc}{\contentsline {subsubsection}{Outline.}{3}{section*.4}}
+\citation{aragon2017bike}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Preliminaries}{4}{section.1.2}}
+\newlabel{sec::prelim}{{2}{4}{Preliminaries\relax }{section.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}General Definitions}{4}{subsection.1.2.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Notations\relax }}{4}{table.caption.5}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{table:notation}{{1}{4}{Notations\relax \relax }{table.caption.5}{}}
+\newlabel{tab::definition}{{1}{4}{Notations\relax \relax }{table.caption.5}{}}
+\citation{aragon2017bike}
+\citation{barreto2017cake}
+\citation{deneuville2017ouroboros}
+\citation{aragon2017bike}
+\citation{aragon2017bike}
+\citation{aragon2017bike}
+\citation{aragon2017bike}
+\citation{aragon2017bike}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}BIKE}{5}{subsection.1.2.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Parameters for BIKE according to NIST defined security category, referenced from \cite  {aragon2017bike}\relax }}{6}{table.caption.6}}
+\newlabel{table:systempar}{{2}{6}{Parameters for BIKE according to NIST defined security category, referenced from \cite {aragon2017bike}\relax \relax }{table.caption.6}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces BIKE-1 Key Generation in Polynomial View \cite  {aragon2017bike}\relax }}{6}{algocf.1}}
+\newlabel{alg:bike1_keygen}{{1}{6}{BIKE\relax }{algocf.1}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces BIKE-2 Key Generation in Polynomial View \cite  {aragon2017bike}\relax }}{6}{algocf.2}}
+\newlabel{alg:bike2_keygen}{{2}{6}{BIKE\relax }{algocf.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces BIKE-3 Key Generation in Polynomial View \cite  {aragon2017bike}\relax }}{6}{algocf.3}}
+\newlabel{alg:bike3_keygen}{{3}{6}{BIKE\relax }{algocf.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Polynomial Arithmetics}{7}{section.1.3}}
+\newlabel{sec::modules}{{3}{7}{Polynomial Arithmetics\relax }{section.1.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Polynomial Representations.}{7}{section*.10}}
+\newlabel{fig:poly_dense}{{1a}{8}{Polynomial represented in dense format\relax \relax }{figure.caption.11}{}}
+\newlabel{sub@fig:poly_dense}{{a}{8}{Polynomial represented in dense format\relax \relax }{figure.caption.11}{}}
+\newlabel{fig:poly_sparse}{{1b}{8}{Polynomial represented in sparse format\relax \relax }{figure.caption.11}{}}
+\newlabel{sub@fig:poly_sparse}{{b}{8}{Polynomial represented in sparse format\relax \relax }{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Polynomial in $\mathbb  {F}_2[x]/(x^r+1)$ represented in different formats\relax }}{8}{figure.caption.11}}
+\newlabel{fig::shifter}{{1}{8}{Polynomial in $\mathbb {F}_2[x]/(x^r+1)$ represented in different formats\relax \relax }{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Polynomial Squaring}{8}{subsection.1.3.1}}
+\newlabel{sub::square}{{3.1}{8}{Polynomial Squaring\relax }{subsection.1.3.1}{}}
+\newlabel{fig:barrel1}{{2a}{10}{Barrel shifter constructed by combinational logic\relax \relax }{figure.caption.12}{}}
+\newlabel{sub@fig:barrel1}{{a}{10}{Barrel shifter constructed by combinational logic\relax \relax }{figure.caption.12}{}}
+\newlabel{fig:barrel2}{{2b}{10}{Barrel shifter constructed by sequential logic\relax \relax }{figure.caption.12}{}}
+\newlabel{sub@fig:barrel2}{{b}{10}{Barrel shifter constructed by sequential logic\relax \relax }{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Barrel shifter used in our key generator to ensure constant execution of multiplication and squaring\relax }}{10}{figure.caption.12}}
+\newlabel{fig:pipeline_squ}{{3a}{10}{Primitive operation pipelining for continuous square\relax \relax }{figure.caption.13}{}}
+\newlabel{sub@fig:pipeline_squ}{{a}{10}{Primitive operation pipelining for continuous square\relax \relax }{figure.caption.13}{}}
+\newlabel{fig:pipeline_squ2}{{3b}{10}{Optimised operation pipelining for continuous square \relax \relax }{figure.caption.13}{}}
+\newlabel{sub@fig:pipeline_squ2}{{b}{10}{Optimised operation pipelining for continuous square \relax \relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Timing diagram used in continuous square\relax }}{10}{figure.caption.13}}
+\citation{chou2016qcbits,drucker2017toolbox}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Generic Polynomial Multiplication}{11}{subsection.1.3.2}}
+\newlabel{sub::dense}{{3.2}{11}{Generic Polynomial Multiplication\relax }{subsection.1.3.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Proposed generic multiplication algorithm\relax }}{12}{algocf.4}}
+\newlabel{alg:generic_mul}{{4}{12}{Generic Polynomial Multiplication\relax }{algocf.4}{}}
+\newlabel{fig:gmul_ill1}{{4a}{13}{Diagonal Computation\relax \relax }{figure.caption.15}{}}
+\newlabel{sub@fig:gmul_ill1}{{a}{13}{Diagonal Computation\relax \relax }{figure.caption.15}{}}
+\newlabel{fig:gmul_ill2}{{4b}{13}{Upper Triangle Computation\relax \relax }{figure.caption.15}{}}
+\newlabel{sub@fig:gmul_ill2}{{b}{13}{Upper Triangle Computation\relax \relax }{figure.caption.15}{}}
+\newlabel{fig:gmul_ill3}{{4c}{13}{Lower Triangle Computation\relax \relax }{figure.caption.15}{}}
+\newlabel{sub@fig:gmul_ill3}{{c}{13}{Lower Triangle Computation\relax \relax }{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Illustration for the proposed generic multiplication algorithm\relax }}{13}{figure.caption.15}}
+\newlabel{fig:pipeline_gmul}{{5a}{13}{Primitive operation pipelining for generic multiplication\relax \relax }{figure.caption.16}{}}
+\newlabel{sub@fig:pipeline_gmul}{{a}{13}{Primitive operation pipelining for generic multiplication\relax \relax }{figure.caption.16}{}}
+\newlabel{fig:pipeline_gmul2}{{5b}{13}{Optimised operation pipelining for generic multiplication \relax \relax }{figure.caption.16}{}}
+\newlabel{sub@fig:pipeline_gmul2}{{b}{13}{Optimised operation pipelining for generic multiplication \relax \relax }{figure.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Timing diagram used in generic multiplication\relax }}{13}{figure.caption.16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces architectural overview of the core unit in the generic multiplication\relax }}{14}{figure.caption.17}}
+\newlabel{fig:gmul_core}{{6}{14}{architectural overview of the core unit in the generic multiplication\relax \relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Sparse Polynomial Multiplication}{14}{subsection.1.3.3}}
+\newlabel{sub::sparse}{{3.3}{14}{Sparse Polynomial Multiplication\relax }{subsection.1.3.3}{}}
+\newlabel{fig:pipeline_mul}{{7a}{15}{Primitive operation pipelining for sparse polynomial multiplication\relax \relax }{figure.caption.18}{}}
+\newlabel{sub@fig:pipeline_mul}{{a}{15}{Primitive operation pipelining for sparse polynomial multiplication\relax \relax }{figure.caption.18}{}}
+\newlabel{fig:pipeline_mul2}{{7b}{15}{Optimised operation pipelining for sparse polynomial multiplication \relax \relax }{figure.caption.18}{}}
+\newlabel{sub@fig:pipeline_mul2}{{b}{15}{Optimised operation pipelining for sparse polynomial multiplication \relax \relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Timing diagram used in sparse polynomial multiplication\relax }}{15}{figure.caption.18}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Cycle count comparison between unoptimized and optimized sparse polynomial multiplication. The pipelined architecture introduces about 50\% reduction of cycle count for all BIKE instances\relax }}{15}{table.caption.19}}
+\newlabel{tab::sparse}{{3}{15}{Cycle count comparison between unoptimized and optimized sparse polynomial multiplication. The pipelined architecture introduces about 50\% reduction of cycle count for all BIKE instances\relax \relax }{table.caption.19}{}}
+\newlabel{fig:L1_ctrl}{{8a}{15}{Barrel shifter constructed by combinational logic\relax \relax }{figure.caption.20}{}}
+\newlabel{sub@fig:L1_ctrl}{{a}{15}{Barrel shifter constructed by combinational logic\relax \relax }{figure.caption.20}{}}
+\newlabel{fig:FLIP_ctrl}{{8b}{15}{Barrel shifter constructed by sequential logic\relax \relax }{figure.caption.20}{}}
+\newlabel{sub@fig:FLIP_ctrl}{{b}{15}{Barrel shifter constructed by sequential logic\relax \relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Barrel shifter used in our key generator to ensure constant execution of multiplication and squaring\relax }}{15}{figure.caption.20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Polynomial Inversion}{15}{subsection.1.3.4}}
+\newlabel{sub::inversion}{{3.4}{15}{Polynomial Inversion\relax }{subsection.1.3.4}{}}
+\citation{georgieva2015toward}
+\citation{hu2015fast}
+\@writefile{loa}{\contentsline {algocf}{\numberline {5}{\ignorespaces Itoh-Tsujii Inversion Algorithm (ITA) \cite  {hu2015fast}\relax }}{16}{algocf.5}}
+\newlabel{algo:ITA}{{5}{16}{Polynomial Inversion\relax }{algocf.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Generation of Polynomials with Prescribed Weight}{16}{subsection.1.3.5}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb  {F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.\relax }}{17}{table.caption.22}}
+\newlabel{table:ita_example}{{4}{17}{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb {F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.\relax \relax }{table.caption.22}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {6}{\ignorespaces Generation of a random polynomial with odd weight\relax }}{17}{algocf.6}}
+\newlabel{alg:prng1}{{6}{17}{Generation of Polynomials with Prescribed Weight\relax }{algocf.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Diagram of the polynomial inversion architecture\relax }}{18}{figure.caption.23}}
+\newlabel{fig:inverter}{{9}{18}{Diagram of the polynomial inversion architecture\relax \relax }{figure.caption.23}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {7}{\ignorespaces Generation of a random sparse polynomial with given (odd) weight\relax }}{18}{algocf.7}}
+\newlabel{alg:prng2}{{7}{18}{Generation of Polynomials with Prescribed Weight\relax }{algocf.7}{}}
+\citation{laue2007compact,cherkaoui2013very}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Cycle counts for generating one entry of a random polynomial with odd weight\relax }}{19}{table.caption.27}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Cycle counts for generating the i-th entry (i=1,2,...) of a random sparse polynomial with odd weight\relax }}{19}{table.caption.28}}
+\newlabel{fig:pipeline_rng}{{10a}{20}{Primitive operation pipelining for Algorithm~\ref {alg:prng2}\relax \relax }{figure.caption.26}{}}
+\newlabel{sub@fig:pipeline_rng}{{a}{20}{Primitive operation pipelining for Algorithm~\ref {alg:prng2}\relax \relax }{figure.caption.26}{}}
+\newlabel{fig:pipeline_rng2}{{10b}{20}{Optimised operation pipelining for Algorithm~\ref {alg:prng2} (initial phase) \relax \relax }{figure.caption.26}{}}
+\newlabel{sub@fig:pipeline_rng2}{{b}{20}{Optimised operation pipelining for Algorithm~\ref {alg:prng2} (initial phase) \relax \relax }{figure.caption.26}{}}
+\newlabel{fig:pipeline_rng3}{{10c}{20}{Optimised operation pipelining for Algorithm~\ref {alg:prng2} (final phase) \relax \relax }{figure.caption.26}{}}
+\newlabel{sub@fig:pipeline_rng3}{{c}{20}{Optimised operation pipelining for Algorithm~\ref {alg:prng2} (final phase) \relax \relax }{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Timing diagram used for generating a random polynomial with odd weight\relax }}{20}{figure.caption.26}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Key Generator Architecture}{20}{section.1.4}}
+\newlabel{sec::keygen}{{4}{20}{Key Generator Architecture\relax }{section.1.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Success Rate for generating a random polynomial with odd weight using Algorithm\nobreakspace  {}\ref  {alg:prng2}\relax }}{21}{table.caption.29}}
+\newlabel{table:success_rate}{{7}{21}{Success Rate for generating a random polynomial with odd weight using Algorithm~\ref {alg:prng2}\relax \relax }{table.caption.29}{}}
+\newlabel{fig:bike1}{{11a}{21}{BIKE-1\relax \relax }{figure.caption.30}{}}
+\newlabel{sub@fig:bike1}{{a}{21}{BIKE-1\relax \relax }{figure.caption.30}{}}
+\newlabel{fig:bike2}{{11b}{21}{BIKE-2 \relax \relax }{figure.caption.30}{}}
+\newlabel{sub@fig:bike2}{{b}{21}{BIKE-2 \relax \relax }{figure.caption.30}{}}
+\newlabel{fig:bike3}{{11c}{21}{BIKE-3 \relax \relax }{figure.caption.30}{}}
+\newlabel{sub@fig:bike3}{{c}{21}{BIKE-3 \relax \relax }{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Overview of the proposed BIKE architectures\relax }}{21}{figure.caption.30}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen\relax }}{21}{table.caption.31}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Performance Evaluations}{22}{section.1.5}}
+\newlabel{sec::evaluation}{{5}{22}{Performance Evaluations\relax }{section.1.5}{}}
+\citation{aragon2017bike}
+\citation{von2014lightweight}
+\citation{maurich2015implementing}
+\citation{maurich2015implementing}
+\citation{drucker2017toolbox}
+\citation{drucker2017toolbox}
+\citation{aragon2017bike}
+\citation{drucker2017toolbox}
+\citation{aragon2017bike}
+\citation{drucker2017toolbox}
+\citation{maurich2015implementing}
+\citation{aragon2017bike}
+\citation{wang2018fpga}
+\citation{wang2018fpga}
+\citation{shoufan2010novel}
+\citation{wang2018fpga,shoufan2010novel}
+\citation{wang2018fpga}
+\citation{wang2018fpga}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Implementation results of BIKE on a Xilinx Virtex-7 XC7V585T FPGA and a Xilinx Spartan-7 XC7S50 FPGA after the place and route process.\relax }}{24}{table.caption.32}}
+\newlabel{table:expresult}{{9}{24}{Implementation results of BIKE on a Xilinx Virtex-7 XC7V585T FPGA and a Xilinx Spartan-7 XC7S50 FPGA after the place and route process.\relax \relax }{table.caption.32}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Performance comparison of our FPGA implementation with dedicate software implementations.\relax }}{24}{table.caption.33}}
+\newlabel{table:compare}{{10}{24}{Performance comparison of our FPGA implementation with dedicate software implementations.\relax \relax }{table.caption.33}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{24}{section.1.6}}
+\newlabel{sec::conclusion}{{6}{24}{Conclusions\relax }{section.1.6}{}}
+\bibstyle{abbrv}
+\bibdata{./reference}
+\bibcite{aragon2017bike}{1}
+\bibcite{baldi2018ledakem}{2}
+\bibcite{baldi2013optimization}{3}
+\bibcite{baldi2016enhanced}{4}
+\bibcite{baldi2008new}{5}
+\bibcite{barreto2017cake}{6}
+\bibcite{chen2016report}{7}
+\bibcite{cherkaoui2013very}{8}
+\bibcite{chou2016qcbits}{9}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Performance comparison of our FPGA implementation with other code-based key generators.\relax }}{25}{table.caption.34}}
+\newlabel{table:compare}{{11}{25}{Performance comparison of our FPGA implementation with other code-based key generators.\relax \relax }{table.caption.34}{}}
+\bibcite{deneuville2017ouroboros}{10}
+\bibcite{drucker2017toolbox}{11}
+\bibcite{eisenbarth2009microeliece}{12}
+\bibcite{fabvsivc2017reaction}{13}
+\bibcite{gaborit2018polynomial}{14}
+\bibcite{georgieva2015toward}{15}
+\bibcite{ghosh2012speed}{16}
+\bibcite{goppa1970new}{17}
+\bibcite{guo2016key}{18}
+\bibcite{heyse2012towards}{19}
+\bibcite{heyse2013smaller}{20}
+\bibcite{hu2017area}{21}
+\bibcite{hu2015fast}{22}
+\bibcite{laue2007compact}{23}
+\bibcite{li1994equivalence}{24}
+\bibcite{loidreau2017new}{25}
+\bibcite{londahl2012new}{26}
+\bibcite{maurich2015implementing}{27}
+\bibcite{mceliece1978public}{28}
+\bibcite{misoczki2009compact}{29}
+\bibcite{misoczki2013mdpc}{30}
+\bibcite{monico2000using}{31}
+\bibcite{niederreiter1986knapsack}{32}
+\bibcite{nilsson2019error}{33}
+\bibcite{otmani2010cryptanalysis}{34}
+\bibcite{shor1997polynomial}{35}
+\bibcite{shoufan2010novel}{36}
+\bibcite{von2014lightweight}{37}
+\bibcite{wang2017fpga}{38}
+\bibcite{wang2018fpga}{39}
