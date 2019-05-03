@@ -8,7 +8,7 @@
 % needed by SAC to show page numbers
 %
 % need to remove before submission
-\usepackage[colorlinks]{hyperref}
+% \usepackage[colorlinks]{hyperref}
 
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -1403,7 +1403,8 @@ Goppa code:\\
  \label{sec::conclusion}
  This paper presented a constant-time hardware-based key generator for BIKE which is among the
  2nd round candidate in the NIST PQC standardization process.
- Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
+ Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work also outperforms the state-of-the-art software implementations of BIKE on powerful CPUs in terms of cycle count. T
+ he methods proposed in this paper are generic and applicable to other code-based schemes as well if the underlying code is quasi-cyclic.
 
 %
 % ---- Bibliography ----
@@ -1421,11 +1422,11 @@ Goppa code:\\
 
 \section*{Appendix}
 %
-
-\subsection{Illustrative example for constant-time ITA used in BIKE}
+\subsubsection{Illustrative example for constant-time ITA used in BIKE.}
+%
 We illustrate a concrete instance for computing the polynomial inversion used in BIKE-2 as shown in Table~\ref{table:ita_example}. 
 
-\begin{table}[!tb]\centering
+\begin{table}[htb]\centering
 \caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}
 \label{table:ita_example}
 \begin{tabular}{ccccc}
@@ -1456,10 +1457,11 @@ We illustrate a concrete instance for computing the polynomial inversion used in
   20  & 10161 & $u_{i-1}+u_0$ &$[\beta_{u_{i_{19}}}(a)]^{2^{u_{i_{0}}}}\cdot \beta_{u_{i_{0}}}(a)$ & $\beta_{u_{i_{20}}}(a)=a^{2^{10161}-1}$\\
   \hline
 \end{tabular}
+\vspace{-4mm}
 \end{table}
 
-\subsection{Proof of Theorem~1}
-We briefly proof Theorem~1 as follows:
+\subsubsection{Proof of Theorem~1.}
+We briefly prove Theorem~1 as follows:
 Consider the straighforward squaring operation for a random polynomial $a(x)\in \mathcal{R}$:
 \begin{align}
     a^2(x) &= (a_{r-1}x^{r-1}+a_{r-2}x^{r-2}+\cdots + a_{1}x + a_0)^2\\
@@ -1539,7 +1541,7 @@ the row number of the non-zero entry for every column of $\text{BT}^n$. In this 
 \]
 
 
-\subsection{Remarks on generic multiplication}
+\subsubsection{Remarks on generic multiplication.}
 We describe the proposed generic multiplication algorithm (Alg.~\ref{alg:generic_mul}) in more details here. Similar to the proposed squaring algorithm,
 another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
 \[
