@@ -169,12 +169,6 @@ C.~L{\"o}ndahl and T.~Johansson.
 \newblock In {\em International Conference on Information and Communications
   Security}, pages 461--470. Springer, 2012.
 
-\bibitem{maurich2015implementing}
-I.~V. Maurich, T.~Oder, and T.~G{\"u}neysu.
-\newblock Implementing qc-mdpc mceliece encryption.
-\newblock {\em ACM Transactions on Embedded Computing Systems (TECS)},
-  14(3):44, 2015.
-
 \bibitem{mceliece1978public}
 R.~J. McEliece.
 \newblock A public-key cryptosystem based on algebraic coding theory.

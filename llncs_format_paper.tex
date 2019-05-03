@@ -96,7 +96,7 @@ proposed in this work
 aims at maximizing the metric of timing efficiency
 while maintaining a low resource consumption.
 % under a given resource restriction. New
-Parallelized polynomial multiplication and squaring 
+Parallelized polynomial multiplication and squaring
 algorithms are proposed
 and implemented to achieve this goal.
 Our experimental results show that our key generator design
@@ -192,7 +192,7 @@ Our contributions include:
   polynomial generation.
   % \item The timing scores ($9.55 \times 10^4$, $2.15 \times 10^6$, and $9.85 \times 10^4$ clock cycles for BIKE-1, BIKE-2, and BIKE-3, respectively) of our design outperform other embedded hardware and even powerful CPU with the dedicate carry-less multiplication instruction in terms of cycle count.
   \item Novel and lightweight hardware architectures for the key generator of three BIKE variants of security ranging
-  between 128-bit and 256-bit. {\color{red} FIXME: how many variants? security level correct?}
+  between 128-bit and 256-bit.
 \end{itemize}
 
 % \paragraph{Outline.}
@@ -218,8 +218,8 @@ Our contributions include:
 \label{sec::prelim}
 
 In the following, we describe the basic notations and definitions
-in QC-MDPC codes which closely follow the descriptions in~\cite{aragon2017bike}. Quasi-cyclic (QC) codes can be  defined  over either matrices or polynomial rings. 
-We use both the matrix view and the polynomial view to  
+in QC-MDPC codes which closely follow the descriptions in~\cite{aragon2017bike}. Quasi-cyclic (QC) codes can be  defined  over either matrices or polynomial rings.
+We use both the matrix view and the polynomial view to
 describe the relevant aspects of the BIKE scheme.
 % scheme better.
 
@@ -252,7 +252,7 @@ describe the relevant aspects of the BIKE scheme.
 \subsection{General Definitions}
 
 Table~\ref{tab::definition} shows the notations
-used in the following discussions. 
+used in the following discussions.
 
 \begin{table}[!tbh]
   \centering
@@ -338,14 +338,14 @@ compared to unstructured codes.
 BIKE uses the double-circulant structure for the parity check matrix
 where two smaller cyclic matrices are included.
 Nine instances of BIKE (BIKE-1, BIKE-2, BIKE-3) are proposed
-in their specification. 
-BIKE-1 is a variant which provides fast key generation 
-by using a variation of the McEliece cryptosystem. 
+in their specification.
+BIKE-1 is a variant which provides fast key generation
+by using a variation of the McEliece cryptosystem.
 A preliminary version of BIKE-1 first appeared in \cite{barreto2017cake}.
-BIKE-2 follows Niederreiter's framework by use of 
-a systematic parity check matrix which can yield a very compact formulation. 
-The BIKE-3 variant follows the work of Ouroboros \cite{deneuville2017ouroboros}, featuring fast, inversion-less key generation operations. 
-The main difference in BIKE-3 is that the decapsulation invokes the decoding algorithm on a noisy syndrome. This also suggests that BIKE-3 is fundamentally distinct from BIKE-1 and BIKE-2 in terms of security aspects. 
+BIKE-2 follows Niederreiter's framework by use of
+a systematic parity check matrix which can yield a very compact formulation.
+The BIKE-3 variant follows the work of Ouroboros \cite{deneuville2017ouroboros}, featuring fast, inversion-less key generation operations.
+The main difference in BIKE-3 is that the decapsulation invokes the decoding algorithm on a noisy syndrome. This also suggests that BIKE-3 is fundamentally distinct from BIKE-1 and BIKE-2 in terms of security aspects.
 Parameters for these BIKE instances are shown in Table~\ref{table:systempar},
 which covers the 5 security categories suggested by the NIST PQC standardization process.
 QC construction of the codes brings a significant reduction
@@ -419,13 +419,13 @@ Algorithm~\ref{alg:bike1_keygen} describes the key generation algorithm of BIKE-
 
 
 Algorithm~\ref{alg:bike2_keygen} describes the BIKE-2 key generation algorithm. Note that BIKE-2 does not generate any random polynomial to hide the secret keys $h_0$ and $h_1$. Instead, it computes $h=h_0^{-1}h_1$ as the public key.
- % by using polynomial inverse. 
+ % by using polynomial inverse.
 Therefore, the public key size is halved, however, the computational cost
 increases due to the required polynomial inversion operation.
 
 Algorithm~\ref{alg:bike3_keygen} describes the key generation algorithm of BIKE-3,
-which is an improved version of BIKE-1. 
-% To further improve BIKE-1, 
+which is an improved version of BIKE-1.
+% To further improve BIKE-1,
 BIKE-3 uses only one multiplication and one addition to compute the first half of public key $f_0=h_1+gh_0$. The second half $f_1$ equals to the random dense polynomial $g$.
  % which requires no multiplication to compute.
 
@@ -497,84 +497,7 @@ Figure~\ref{fig:poly_sparse} illustrates the data structure of $\mathbf{\hat{f}}
 
 \subsection{Polynomial Squaring}
 \label{sub::square}
-Consider the straighforward squaring operation for a random polynomial $a(x)\in \mathcal{R}$:
-\begin{align}
-    a^2(x) &= (a_{r-1}x^{r-1}+a_{r-2}x^{r-2}+\cdots + a_{1}x + a_0)^2\\
-    &= a_{r-1}x^{2(r-1)}+a_{r-2}x^{2(r-2)}+\cdots + a_1x^2 + a_0\\
-    &= \widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}
-\end{align}
-%
-The computation of the coefficients $\widetilde{a_{i}}$ can
-be realized by a matrix multiplication operation,
-which relies on the base transformation matrix BT, as shown follows:
-\[
-a^2(x)= [{a_{0}},{a_{1}},\cdots,{a_{r-1}}]\left[ \begin{array}{c}
-x^{0} \\
-x^{2} \\
-\vdots\\
-x^{2(r-2)}\\
-x^{2(r-1)}
-\end{array}
-\right ]
-=
-[{a_0},{a_1},\cdots,{a_{r-1}}]
-\cdot \text{BT}_{r\times r} \cdot
-\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-\]
-where $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}$ and BT is a $r\times r$ permutation matrix defined as:
-\[
-\text{BT} =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
-\cdots&\mathbf{1}_{2}&0 &\cdots&\cdots \\
-\vdots&\vdots&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\mathbf{1}_{2r-4}&0&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{2r-2}&0\\
-\end{array}
-\right ]
-\]
-$\mathbf{1}_{i}$ represents the ($i\bmod r$)-th (counting from zero) non-zero entry in the corresponding row of the matrix BT.
-%
-More generally, we derive the base transformation matrix $\text{BT}_n=\text{BT}^n$ for
-computing polynomial squaring continuously:
-$a(x)^{2^n}=\widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}$.
-As we will see in Section~\ref{sub::inversion},
-this is particularly useful in computing the
-inverse of a polynomial.
-\[
-\text{BT}^n =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
-\cdots&\mathbf{1}_{2^n}&0 &\cdots&\cdots \\
-\vdots&\vdots&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\mathbf{1}_{(r-2)2^n}&0&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^n}&0\\
-\end{array}
-\right ]
-\]
-%
-In order to compute the coefficient vector $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}^n$, $\text{BT}^n$ must be represented in column view format, \textit{i.e.},
-the row number of the non-zero entry for every column of $\text{BT}^n$. In this form, the squaring of $a(x)$ is essentially the substitutions of the coefficients of $a(x)$:
-\[
-\text{BT}^n =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&\vdots& \vdots&\vdots&\vdots \\
-\vdots&\mathbf{1}_{2^{-n}}&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{(r-2)2^{-n}}&\vdots\\
-\vdots&\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^{-n}}\\
-\end{array}
-\right ]
-\]
-
+In this paper, the general squaring form $(a(x))^{2^n}$ is considered. The following theorem states how to calculate the squaring of a polynomial over $\mathcal{R}$.
 \begin{theorem}
 For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum a_ix^i \in \mathcal{R}$, each coefficient $\widetilde{a_{i}}$ is updated by $a_{j}$ in $[{a_{r-1}},{a_{r-2}},\cdots,{a_0}]$ as:
 \[
@@ -615,7 +538,7 @@ For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum 
 \end{figure*}
 
 Note that the data is typically processed word by word on hardware, \textit{i.e.}, only one or two words (in our design, one word is $d$-bits) per time are fetched from memory and loaded to core function for further calculation. However, sometimes we want to extract the precise bit in the word.
-Squaring is such an example where the result is indeed computed bit by bit. 
+Squaring is such an example where the result is indeed computed bit by bit.
 To preserve the constant-time feature during executions while
 avoiding the performance degradation in timing,
 a Barrel shifter
@@ -651,75 +574,9 @@ For two dense polynomials $a(x)$ and $b(x)$, their multiplication is represented
 \end{align}
 %
 For software implementations \cite{chou2016qcbits,drucker2017toolbox}, the best practice is to apply a carry-less Karatsuba algorithm to improve the performance for sufficiently high-degree polynomial multiplications, in particular those used for BIKE and other QC-MDPC code related cryptosystems. Carry-less Karatsuba algorithm is efficient on modern general-purpose processors equipped with ``carry-less multiplication'' instruction  PCLMULQDQ. This instruction computes the product of two binary polynomials of degree 63 and thus an appropriate software flow can use PCLMULQDQ to perform the carry-less Karatsuba algorithm for polynomials with any degree. However, FPGAs do not have
-similar embedded instructions and moreover, a relatively complex control flow of Karatsuba algorithm will degrade the timing performance on FPGAs. 
+similar embedded instructions and moreover, a relatively complex control flow of Karatsuba algorithm will degrade the timing performance on FPGAs.
 These issues drive us to find out a better solution for polynomial multiplications on FPGAs.
 
-
-
-We describe our new algorithm next. As described in Section~\ref{sub::square},
-another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
-\[
-a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-=
-[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}_{mul,r\times r} \cdot
-\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-\]
-$\text{BT}_{mul}$ is a $r\times r$ matrix where each column/row is a cyclic form of the vector $[b_{r-1},b_{r-2},\ldots, b_{1},b_{0}]$:
-\[
-\text{BT}_{mul} =
-\left[ \begin{array}{cccccc}
-b_{0}&b_{1}&\cdots&b_{d-1}&\cdots &b_{r-1} \\
-b_{r-1}&b_{0}&\cdots&b_{d-2}&\cdots &b_{r-2} \\
-\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
-b_{2}&b_{3}&\cdots&b_{d+1}&\cdots &b_{1} \\
-b_{1}&b_{2}&\cdots&b_{d}&\cdots &b_{0} \\
-\end{array}
-\right ]
-\]
-
-\begin{figure*}[!tb]
-\centering
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate.eps}
-\caption{Diagonal Computation}
-\label{fig:gmul_ill1}
-\end{subfigure}
-\hspace{1em}
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate2.eps}
-\caption{Upper Triangle Computation}
-\label{fig:gmul_ill2}
-\end{subfigure}
-\hspace{1em}
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate3.eps}
-\caption{Lower Triangle Computation}
-\label{fig:gmul_ill3}
-\end{subfigure}
-\caption{Illustration for the proposed generic multiplication algorithm}
-\end{figure*}
-Storing the full $\text{BT}_{mul}$ matrix is redundant
-since the blocks along each diagonal are identical
-(for example, $\text{BT}_{mul}[0:d-1,0:d-1] = \text{BT}_{mul}[d:2d-1,d:2d-1] = \ldots$).
-This way, $\text{BT}_{mul}$ is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Figure~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute these parts.
-By eliminating such redundancy, the communication overhead for
-loading $\text{BT}_{mul}$ is minimized which enables a
-fast pipeline scheduling in the generic polynomial multiplication module.
 
 \begin{algorithm}[!tbh]
  \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
@@ -808,7 +665,7 @@ the result back.
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=.55\textwidth]{./fig/dsnmul_core.eps}
-\caption{architectural overview of the core unit in the generic multiplication}\label{fig:gmul_core}
+\caption{Architectural overview of the core unit in the generic multiplication}\label{fig:gmul_core}
 \end{figure}
 
 
@@ -1000,9 +857,9 @@ the inverted polynomial is stored as the result in RAM op0.
 % In the following subsections,
 % we detail the squaring and the generic multiplication used in ITA.
 
- 
 
-\subsection{Generation of Polynomials with Prescribed Weight}
+
+\subsection{Generation of Polynomials with Prescribed Weight}\label{sub::polygen}
 
 \begin{algorithm}[!tb]
 \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
@@ -1042,7 +899,7 @@ $wt \gets 0$\;
 \end{algorithm}
 
 Strictly speaking, the execution time of the random polynomial generations proposed in
-Algorithms~\ref{alg:prng1},\ref{alg:prng2} is non-constant.
+Algorithms~\ref{alg:prng1}, \ref{alg:prng2} is non-constant.
 Algorithm~\ref{alg:prng1} optionally performs a step if the
 Hamming weight of the polynomial is an even number;
 Algorithm~\ref{alg:prng2} keeps generating new random numbers
@@ -1082,7 +939,7 @@ BIKE-1 and BIKE-2 and $\lambda\approx w-\frac{1}{2}log_2r$ for BIKE-3,
 and 1 or 2 repetitions only decrease the security from $2^\lambda$ to $2^{\lambda-2}$.
 More importantly, the probability that a single run of Algorithm~\ref{alg:prng2} without considering collision succeeds if we tolerate one or two repetitions:
 \begin{align}
-    %Pr(\text{Alg.~\ref{alg:prng2} succeeds}) &= 
+    %Pr(\text{Alg.~\ref{alg:prng2} succeeds}) &=
     Pr(\text{Alg.~\ref{alg:prng2} succeeds})
     &=\frac{r(r-1)\cdots (r-w_t+1)}{r^{w_t}}+ \frac{\binom{w_t}{2}r(r-1)\cdots (r-w_t+2)}{r^{w_t}}\\
     &+ \frac{[\binom{w_t}{3}+\binom{w_t}{2}\binom{w_t-2}{2}/2]  r(r-1)\cdots (r-w_t+3) }{r^{w_t}}
@@ -1143,32 +1000,32 @@ such PRNG must be replaced with a cryptographically secure random number
 generator, \textit{e.g.}, \cite{laue2007compact,cherkaoui2013very}. We require at most $d$ random bits per $T_{\text{PRNG}}$ clock cycles where $T_{\text{PRNG}}=13$ in our settings.
 The average clock cycles for generating a qualified rand number is $T_{\text{PRNG}}' = T_{\text{PRNG}}/Pr(\text{rand} < r)$
 
-\begin{table}[!tb]\centering
-\caption{Cycle counts for generating  one entry of a random polynomial with odd weight}
-\begin{tabular}{c|c|c|c}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  Operation & PRNG & Write & Total \\\hline
-   & $T_{\text{PRNG}}$ & 1  & $T_{\text{PRNG}}$+1 \\
-  \hline
-\end{tabular}
-\vspace{-4mm}
-\end{table}
+%\begin{table}[!tb]\centering
+%\caption{Cycle counts for generating  one entry of a random polynomial with odd weight}
+%\begin{tabular}{c|c|c|c}
+%  \hline
+%  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+%  Operation & PRNG & Write & Total \\\hline
+%   & $T_{\text{PRNG}}$ & 1  & $T_{\text{PRNG}}$+1 \\
+%  \hline
+%\end{tabular}
+%\vspace{-4mm}
+%\end{table}
+%
+%\begin{table}[!tb]\centering
+%\caption{Cycle counts for generating  the i-th entry (i=1,2,...) of a random sparse polynomial with odd weight}
+%\begin{tabular}{c|c|c|c|c|c}
+%  \hline
+%  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+%  Operation & PRNG & Rd\_FIFO & CHECK &Wr\_RAM & Total \\\hline
+%   & $T_{\text{PRNG}}$ & 4  & $i$ & 1 &$T_{\text{PRNG}}+5+i$ \\
+%  \hline
+%\end{tabular}
+%\vspace{-4mm}
+%\end{table}
 
 \begin{table}[!tb]\centering
-\caption{Cycle counts for generating  the i-th entry (i=1,2,...) of a random sparse polynomial with odd weight}
-\begin{tabular}{c|c|c|c|c|c}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  Operation & PRNG & Rd\_FIFO & CHECK &Wr\_RAM & Total \\\hline
-   & $T_{\text{PRNG}}$ & 4  & $i$ & 1 &$T_{\text{PRNG}}+5+i$ \\
-  \hline
-\end{tabular}
-\vspace{-4mm}
-\end{table}
-
-\begin{table}[!tb]\centering
-\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}
+\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}\label{table:spare_ploy_gen}
 \begin{tabular}{cc|ccccc}
   \hline
   % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
@@ -1186,7 +1043,7 @@ The average clock cycles for generating a qualified rand number is $T_{\text{PRN
 \vspace{-4mm}
 \end{table}
 
-Therefore, the total cycle count for generating a random polynomial with odd weight (Algorithm~\ref{alg:prng1}) is  
+Therefore, the total cycle count for generating a random polynomial with odd weight (Algorithm~\ref{alg:prng1}) is
 $\lceil r/d\rceil\cdot T_{\text{PRNG}} + 1$.
 
 
@@ -1207,12 +1064,7 @@ If a dual-port RAM is used, the above cycle count estimation can be further impr
 \[
     \left({T''}_{\text{PRNG}}^2 - 4{T''}_{\text{PRNG}} + \frac{T''_{\text{PRNG}}+\lceil w_t/2\rceil+6}{2}(\lceil w_t/2\rceil-T''_{\text{PRNG}}+5)\right)/Pr(\text{Alg.~\ref{alg:prng2} succeeds})
 \]
-where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$
-
-
-{\color{red} mention and explain Table 5, 6 and 7 in the text, if not important,
-can delete one or two}
-
+where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$. The detailed cycle counts for generating the sparse polynomial $h_0/h_1$ in all BIKE variants are listed in Table~\ref{table:spare_ploy_gen}.
 
 \section{Key Generator Architecture}
 \label{sec::keygen}
@@ -1239,54 +1091,54 @@ can delete one or two}
 \end{figure*}
 
 Our key generator performs the computations in BIKE-1/2/3 as shown in Algorithm~\ref{alg:bike1_keygen}, Algorithm~\ref{alg:bike2_keygen}, and Algorithm~\ref{alg:bike3_keygen}. The top-level architectures are depicted in Figure~\ref{fig:bike1}, \ref{fig:bike2}, \ref{fig:bike3}
-respectively. 
+respectively.
 BIKE-1 and BIKE-3 share similar architectures
-where the sparse polynomial multiplication module 
-(SMUL\_CTRL in Section~\ref{sub::sparse}) is the core building block. 
-The difference within the two architectures is that 
-BIKE-1 requires two SMUL\_CTRL modules 
+where the sparse polynomial multiplication module
+(SMUL\_CTRL in Section~\ref{sub::sparse}) is the core building block.
+The difference within the two architectures is that
+BIKE-1 requires two SMUL\_CTRL modules
 whereas BIKE-3 requires only one SMUL\_CTRL module and one additional
-addition unit. 
-In our design, the two sparse polynomial multiplications 
-in BIKE-1 are performed in parallel to improve the 
-timing efficiency. 
-Therefore, the total cycle count of BIKE-1 
-is close to that of BIKE-3. 
-Among BIKE-1/2/3, the architecture of BIKE-3 is 
+addition unit.
+In our design, the two sparse polynomial multiplications
+in BIKE-1 are performed in parallel to improve the
+timing efficiency.
+Therefore, the total cycle count of BIKE-1
+is close to that of BIKE-3.
+Among BIKE-1/2/3, the architecture of BIKE-3 is
 the most compact while the critical path is the shortest,
 this is mainly due to the simplicity of the architecture
-since only one SMUL\_CTRL is instantiated in BIKE-3. 
+since only one SMUL\_CTRL is instantiated in BIKE-3.
 The modules h\_ctrl and g\_ctrl in BIKE-3 represents the
 control logic for
-generating the sparse polynomials $h_0,h_1$ and 
-the dense polynomial $g$, as discussed in Section~\ref{}. {\color{red} link to section number here}
+generating the sparse polynomials $h_0,h_1$ and
+the dense polynomial $g$, as discussed in Section~\ref{sub::polygen}.
 
-The key generator architecture for BIKE-2 
-is significantly more expensive compared to 
+The key generator architecture for BIKE-2
+is significantly more expensive compared to
 BIKE-1 and BIKE-3.
 This is mainly due to the requirement of a
 polynomial inversion step in the key generation process,
-therefore a INV\_CTRL as described in Section~\ref{sub::inversion} is needed. 
-% INV\_CTRL consists of the arithmetic core for continuous square and generic multiplication as illustrated in Section 2.3 and 2.4. 
+therefore a INV\_CTRL as described in Section~\ref{sub::inversion} is needed.
+% INV\_CTRL consists of the arithmetic core for continuous square and generic multiplication as illustrated in Section 2.3 and 2.4.
 After the inversion operation, the inversed polynomial of
 $h_0$ is obtained, which is represented as $h_0^{-1}$.
 Then, the sparse polynomial multiplication begins
 by triggering the SMUL\_CTRL module with polynomials
-$h_0^{-1}$ and $h_1$ as inputs. 
+$h_0^{-1}$ and $h_1$ as inputs.
 After the SMUL\_CTRL module finishes,
 the result is sent out as the output,
 which is the secret key $h=h_0^{-1}h_1$.
 % After inversion, the dense polynomial $h_0^{-1}$ is obtained and finally, the sparse polynomial multiplication is performed on SMUL\_CTRL to extract the secret key $h=h_0^{-1}h_1$.
 
 Similar optimizations as proposed to schedule pipelines
-as described in Section~\ref{} are applied to the 
-modules within the BIKE key generator as well: 
-% optimization technique is applied to 
+as described in Section~3 are applied to the
+modules within the BIKE key generator as well:
+% optimization technique is applied to
 g\_ctrl, h\_ctrl, SMUL\_CTRL, and INV\_CTRL.
 These optimizations improves the timing efficiency for the
-key generator. 
-% The optimized piepline schedules are depicted in Figure~\ref{fig:pipeline_squ2}, 
-% ~\ref{fig:pipeline_mul2}, and \ref{fig:pipeline_rng3}. 
+key generator.
+% The optimized piepline schedules are depicted in Figure~\ref{fig:pipeline_squ2},
+% ~\ref{fig:pipeline_mul2}, and \ref{fig:pipeline_rng3}.
 % As dual-port RAM is instantiated, we are able to load two successive data from secret/public keyRAM in one clock cycle to slice registers for fast processing.
 
 
@@ -1326,65 +1178,65 @@ key generator.
 \vspace{-4mm}
 \end{table*}
 %
-In this section, we present the hardware implementation results of the 
-key generator of BIKE on FPGAs. 
-All the results are obtained post place-and-route for a 
-Xilinx high-end FPGA device --- Virtex XC7V585T 
-and a low-end FPGA device --- Spartan XC7S50 FPGA 
+In this section, we present the hardware implementation results of the
+key generator of BIKE on FPGAs.
+All the results are obtained post place-and-route for a
+Xilinx high-end FPGA device --- Virtex XC7V585T
+and a low-end FPGA device --- Spartan XC7S50 FPGA
 using the Xilinx Vivado v2018.1 synthesis tool.
-% which demonstrate the time and the area efficiency of our design on both platforms. 
-To the best of our knowledge, this work is the first 
-that reports the performance results of the BIKE key generator 
-on FPGA platforms. 
- 
-As shown in Table~\ref{table:expresult}, 
+% which demonstrate the time and the area efficiency of our design on both platforms.
+To the best of our knowledge, this work is the first
+that reports the performance results of the BIKE key generator
+on FPGA platforms.
+
+As shown in Table~\ref{table:expresult},
 for our BIKE-1 key generator,
-when the design is synthesized on the Virtex-7 device, 
-the synthesis tool reports a maximum frequency of 350~MHz. 
-Our simulation result shows that it takes $95,506$ cycles 
+when the design is synthesized on the Virtex-7 device,
+the synthesis tool reports a maximum frequency of 350~MHz.
+Our simulation result shows that it takes $95,506$ cycles
 to generate one key pair for BIKE-1.
 Therefore, to generate a complete key pair for BIKE-1,
-only 0.273 $ms$ are needed. 
+only 0.273 $ms$ are needed.
 When synthesized for a lower-end Spartan-7 device,
-our design is reported to be able to run at 160~MHz 
-which leads to a key pair generation time of 0.597~$ms$. 
+our design is reported to be able to run at 160~MHz
+which leads to a key pair generation time of 0.597~$ms$.
 The area consumption of the key generator
-for BIKE-1 is very low: Only 612 slices and 544 slices 
-are needed on Virtex-7 and Spartan-7 respectively. 
-% as our proposed architecture uses the proposed optimized sparse polynomial multiplication, and executes all operations in word level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources. 
+for BIKE-1 is very low: Only 612 slices and 544 slices
+are needed on Virtex-7 and Spartan-7 respectively.
+% as our proposed architecture uses the proposed optimized sparse polynomial multiplication, and executes all operations in word level (here in this concrete experiment, 64-bits of data are operated per time), which costs limited hardware resources.
 Compared to BIKE-1, the key generator for BIKE-3
 is more compact since only one sparse polynomial
 multiplication module is needed instead of two.
-However, BIKE-3 takes slightly more cycles 
+However, BIKE-3 takes slightly more cycles
 compared to BIKE-1 to generate a key pair
 due to the additional polynomial addition operation
-needed for computing the secret key $f_0$ 
+needed for computing the secret key $f_0$
 in BIKE-3.
 In terms of run time,
-the performance of the BIKE-3 key generator 
-is slightly better than BIKE-1: 
-The key pair generation take $0.273$ $ms$ and $0.492$ $ms$ 
-respectively on Virtex-7 and Spartan-7 FPGAs. 
+the performance of the BIKE-3 key generator
+is slightly better than BIKE-1:
+The key pair generation take $0.273$ $ms$ and $0.492$ $ms$
+respectively on Virtex-7 and Spartan-7 FPGAs.
 % The slice overheads are also lower as BIKE-3 carries one copy of the core unit, sparse polynomial multiplication whereas BIKE-1 has two of them. The cycle count is slightly worse than that of BIKE-1 as BIKE-3 requires an extra polynomial addition to compute the secret key $f_0$.
 
 For the BIKE-2 key generator, the synthesis tool reports
 frequencies as 320 MHz and 150 MHz on the Virtex-7 and Spartan-7 devices respectively.
-A full key generation in BIKE-2 takes $2,150,121$ cycles 
+A full key generation in BIKE-2 takes $2,150,121$ cycles
 which leads to run time of $6.719$ ms and $14.334$ ms respectively
-on Virtex-7 and Spartan-7 devices. 
-As we can see from Table~\ref{table:expresult}, 
-BIKE-2 is around two orders of magnitude slower compared to BIKE-1 and BIKE-3.  
+on Virtex-7 and Spartan-7 devices.
+As we can see from Table~\ref{table:expresult},
+BIKE-2 is around two orders of magnitude slower compared to BIKE-1 and BIKE-3.
 This performance gap between BIKE-2 and BIKE-1/3 is mainly
 due to the requirement of an expensive polynomial inversion operation in BIKE-2
-while in BIKE-1/3 it is not needed. 
-% Nevertheless, by using the proposed generic multiplication algorithm and continuous square algorithm, the BIKE-2 timing is significantly improved and preserves the constant-time execution. 
-Due to the existance of the polynomial inversion module, 
-the area utilization of BIKE-2 key generator is more than $2\times$ 
-bigger compared to BIKE-1/3 as well. 
-% The slice usage is also conservative, increasing by 2-3 times compared with BIKE-1 and BIKE-2.  
+while in BIKE-1/3 it is not needed.
+% Nevertheless, by using the proposed generic multiplication algorithm and continuous square algorithm, the BIKE-2 timing is significantly improved and preserves the constant-time execution.
+Due to the existance of the polynomial inversion module,
+the area utilization of BIKE-2 key generator is more than $2\times$
+bigger compared to BIKE-1/3 as well.
+% The slice usage is also conservative, increasing by 2-3 times compared with BIKE-1 and BIKE-2.
 Moreover, the memory overhead in BIKE-2 key generator
-is also larger than that of BIKE-1/3 since 
-the polynomial inversion module 
+is also larger than that of BIKE-1/3 since
+the polynomial inversion module
 requests to save a few ephemeral variables.
 
 \section{Related Work}
@@ -1395,33 +1247,23 @@ schemes based on binary Goppa
 codes have been extensively studied in the last decade
 ~\cite{eisenbarth2009microeliece,shoufan2010novel,ghosh2012speed,heyse2012towards,wang2017fpga,wang2018fpga}.
 In 2018, Wang, Niederhagen and Szefer presented
-the fastest-to-date FPGA-based design for the 
+the fastest-to-date FPGA-based design for the
 Goppa code-based Niederreiter cryptosystem~\cite{wang2018fpga}
 which includes all the operations, i.e.,
 key generation~\cite{wang2017fpga}, encryption and decryption.
-As we can see from Table~\ref{table:compare}, with the same security level, 
-cryptosystems based on binary Goppa codes 
-require much more time, slices and memory to generate 
-a key pair. 
-Such memory overhead is inevitable in Goppa code 
+As we can see from Table~\ref{table:compare}, with the same security level,
+cryptosystems based on binary Goppa codes
+require much more time, slices and memory to generate
+a key pair.
+Such memory overhead is inevitable in Goppa code
 cryptosystems due to its large public key size
 which does not exisit in cryptosystems based on
 quasi-cyclic codes.
  % as Goppa code cannot benefit from quasi-cyclic construction to compress the key size.
 Therefore, compared to binary Goppa code-based key generatos,
-our design based on QC MDPC codes is a much more lightweight 
-design which is also much more efficient and has a 
+our design based on QC MDPC codes is a much more lightweight
+design which is also much more efficient and has a
 much smaller memory overhead.
-
-{\color{red} Question: you should synthesize the design on the
-same type of FPGA which means that in Table 11, 
-you should synthesize your BIKE design on Virtex-5 instead
-of Virtex-7 for ``fair comparison''.}
-
-{\color{red} Question: in table 11, the security levels are all different?
-How can you compare? throughout the paper, it is not clear
-if 128 means classical security level or
-post-quantum security level?}
 
 % Their design generates a key pair in $3.98 ms$ for 256-bit security on an Ultrascale+ FPGA.
 
@@ -1448,12 +1290,12 @@ post-quantum security level?}
 % takes 58.78 $\mu$s on a Virtex-6 FPGA
 % with 80-bit security.
 
-A few hardware designs have been proposed on MDPC code-based 
+A few hardware designs have been proposed on MDPC code-based
 cryptosystems~\cite{heyse2013smaller,von2014lightweight,hu2017area}.
 However, all of these designs only focus on the encryption/decryption
 operations in the cryptosystem.
 Therefore, a direct comparison of our work
-with other key generator architectures of MDPC code-based 
+with other key generator architectures of MDPC code-based
 cryptosystems are not feasible.
 % The first implementation of MDPC code-based McEliece cryptosystem on FPGAs
 % was presented in~\cite{heyse2013smaller} in 2013.
@@ -1470,35 +1312,35 @@ cryptosystems are not feasible.
 
 To get a better comparison with other work on MDPC code-based cryptosystems,
 we also compared our work with the state-of-the-art software implementations of BIKE.
-% on either CPUs or micro-controllers. 
-Note that a fair comparison between our hardware design and other software implementations 
-of BIKE is not feasible since the platforms are fully different.  
+% on either CPUs or micro-controllers.
+Note that a fair comparison between our hardware design and other software implementations
+of BIKE is not feasible since the platforms are fully different.
 % We attempt to compare the performance in the metric of cycle count which is a platform independent indicator, given in Table \ref{table:compare}.
 Comparison results are provided in Table~\ref{table:compare}.
-We first compare our design with the implementation 
+We first compare our design with the implementation
 which is included in the BIKE specification
 submitted to the NIST 2nd round PQC standardization process~\cite{aragon2017bike}.
-% standard BIKE specification implementation \cite{aragon2017bike} which is also submitted for NIST PQC standardization. 
-% The experiments from \cite{von2014lightweight} is equipped with an Intel i5 CPU running at 1.8 GHz and 32 GB RAM, 32K L1d and L1i cache, 256K L2 cache, and 4096K L3 cache. 
+% standard BIKE specification implementation \cite{aragon2017bike} which is also submitted for NIST PQC standardization.
+% The experiments from \cite{von2014lightweight} is equipped with an Intel i5 CPU running at 1.8 GHz and 32 GB RAM, 32K L1d and L1i cache, 256K L2 cache, and 4096K L3 cache.
 As we can see from Table~\ref{table:compare}, with the same security levels,
-for BIKE-1, our design is around $7.7\times$ faster than their implementation 
+for BIKE-1, our design is around $7.7\times$ faster than their implementation
 in terms of cycle count.
 Moreover, the software implementation provided in~\cite{aragon2017bike} is not constant-time and
-therefore is vulerable to timing side-channel attacks. 
-% is much slower than ours. 
-% The micro-controller implementation from \cite{maurich2015implementing} is performed on ARM Cortex-M4 and uses obsolete BIKE-2 system parameters with 80-bit security level which is not recommended in the NIST PQC standardization. Despite the insufficiently 80-bit SL parameters used in \cite{maurich2015implementing}, their implementation is non-constant time and costs huge cycle count (148.5 million).  
-An optimized software implementation for BIKE is reported in~\cite{drucker2017toolbox}. 
-% This additional implementation is equipped with an Intel i5 CPU running at 3.0 GHz and 70 GB RAM, 32K L1d and L1i cache, 1024K L2 cache, and 25,344K L3 cache. 
-In this implementation, 
+therefore is vulerable to timing side-channel attacks.
+% is much slower than ours.
+% The micro-controller implementation from \cite{maurich2015implementing} is performed on ARM Cortex-M4 and uses obsolete BIKE-2 system parameters with 80-bit security level which is not recommended in the NIST PQC standardization. Despite the insufficiently 80-bit SL parameters used in \cite{maurich2015implementing}, their implementation is non-constant time and costs huge cycle count (148.5 million).
+An optimized software implementation for BIKE is reported in~\cite{drucker2017toolbox}.
+% This additional implementation is equipped with an Intel i5 CPU running at 3.0 GHz and 70 GB RAM, 32K L1d and L1i cache, 1024K L2 cache, and 25,344K L3 cache.
+In this implementation,
 the core functionality in BIKE is written in assembly language,
-moreover, the PCLMULQDQ instruction extension is exploited 
+moreover, the PCLMULQDQ instruction extension is exploited
 to enable carry-less multiplication to speed up
-the computations in BIKE. 
+the computations in BIKE.
 The performance results of~\cite{drucker2017toolbox}
 is provided in Table~\ref{table:compare}.
 In terms of cycle count, for BIKE-1, the performance of our hardware design is
 comparable to~\cite{drucker2017toolbox} while an over $2\times$
-speedup is achieved in BIKE-2. 
+speedup is achieved in BIKE-2.
 % results are comparable and even better than \cite{drucker2017toolbox}.
 % The implementation uses the PCLMULQDQ architecture extension to enable carry-less multiplication for performance gain. Despite these dedicate and platform-dependent optimizations, our results are comparable and even better than \cite{drucker2017toolbox}. The performance gain of our design comes from two aspects: first, the pipelining parallelization is proposed for core functions including squaring, multiplication. second, the proposed continuous squaring, generic multiplication, and sparse polynomial multiplication has lower communication overheads to external memory which facilitate computational accelerations on FPGA.
 
@@ -1513,16 +1355,16 @@ speedup is achieved in BIKE-2.
 Scheme &{SL [bit]}&  Implementation & Platform & \tabincell{c}{Performance\\{} [in millions of cycles]}\\
 \hline
 \multirow{3}{*}{\textbf{BIKE-1}} & 128 & Ours, constant-time & FPGA & 0.095\\
-                                & 128 & \cite{aragon2017bike}, non-constant-time & {\color{red} CPU name} & $\approx 0.73$\\
-                                & 128 & \cite{drucker2017toolbox}, {\color{red} constant-time?} & {\color{red} CPU name} & 0.09\\
+                                & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} & $\approx 0.73$\\
+                                & 128 & \cite{drucker2017toolbox}, non-constant-time & {Intel Xeon-8124M} & 0.09\\
 \hline
 \multirow{3}{*}{\textbf{BIKE-2}} & 128 & Ours, constant-time & FPGA & 2.15\\
-                                & 128 & \cite{aragon2017bike}, {\color{red} constant-time?} & {\color{red} CPU name} &$\approx 6.3$\\
-                                & 128 & \cite{drucker2017toolbox}, {\color{red} constant-time?}& {\color{red} CPU name} & 4.38\\
+                                & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} &$\approx 6.3$\\
+                                & 128 & \cite{drucker2017toolbox}, non-constant-time & {Intel Xeon-8124M} & 4.38\\
                                  % & 80 & \cite{maurich2015implementing} & Micro-controller &$\approx 148.5$\\
 \hline
 \multirow{2}{*}{\textbf{BIKE-3}} & 128 & Ours, constant-time & FPGA & 0.098\\
-                                 & 128 & \cite{aragon2017bike}, {\color{red} constant-time?} & {\color{red} CPU name} &$\approx 0.43$ \\
+                                 & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} &$\approx 0.43$ \\
 \hline
 \end{tabular}}
 \end{minipage}
@@ -1559,8 +1401,8 @@ Goppa code:\\
 
 % \section{Conclusions}
 % \label{sec::conclusion}
-% This paper presented a constant-time hardware-based key generator for BIKE which is among the 
-% 2nd round candidate in the NIST PQC standardization process. 
+% This paper presented a constant-time hardware-based key generator for BIKE which is among the
+% 2nd round candidate in the NIST PQC standardization process.
 % Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
 
 %
@@ -1572,16 +1414,19 @@ Goppa code:\\
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
 %
+\bibliographystyle{abbrv}
+\bibliography{./reference}
 
 \newpage
 
 \section*{Appendix}
 %
-{\color{red} need to re-organize appendix and reference here}
-An illustrative example for computing the polynomial inversion used in~\ref{table:ita_example} in shown in the following table:
+
+\subsection{Illustrative example for constant-time ITA used in BIKE}
+We illustrate a concrete instance for computing the polynomial inversion used in BIKE-2 as shown in Table~\ref{table:ita_example}. 
 
 \begin{table}[!tb]\centering
-\caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}\scriptsize
+\caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}
 \label{table:ita_example}
 \begin{tabular}{ccccc}
   \hline
@@ -1613,8 +1458,151 @@ An illustrative example for computing the polynomial inversion used in~\ref{tabl
 \end{tabular}
 \end{table}
 
+\subsection{Proof of Theorem~1}
+We briefly proof Theorem~1 as follows:
+Consider the straighforward squaring operation for a random polynomial $a(x)\in \mathcal{R}$:
+\begin{align}
+    a^2(x) &= (a_{r-1}x^{r-1}+a_{r-2}x^{r-2}+\cdots + a_{1}x + a_0)^2\\
+    &= a_{r-1}x^{2(r-1)}+a_{r-2}x^{2(r-2)}+\cdots + a_1x^2 + a_0\\
+    &= \widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}
+\end{align}
+%
+The computation of the coefficients $\widetilde{a_{i}}$ can
+be realized by a matrix multiplication operation,
+which relies on the base transformation matrix BT, as shown follows:
+\[
+a^2(x)= [{a_{0}},{a_{1}},\cdots,{a_{r-1}}]\left[ \begin{array}{c}
+x^{0} \\
+x^{2} \\
+\vdots\\
+x^{2(r-2)}\\
+x^{2(r-1)}
+\end{array}
+\right ]
+=
+[{a_0},{a_1},\cdots,{a_{r-1}}]
+\cdot \text{BT}_{r\times r} \cdot
+\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+\]
+where $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}$ and BT is a $r\times r$ permutation matrix defined as:
+\[
+\text{BT} =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
+\cdots&\mathbf{1}_{2}&0 &\cdots&\cdots \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\mathbf{1}_{2r-4}&0&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{2r-2}&0\\
+\end{array}
+\right ]
+\]
+$\mathbf{1}_{i}$ represents the ($i\bmod r$)-th (counting from zero) non-zero entry in the corresponding row of the matrix BT.
+%
+More generally, we derive the base transformation matrix $\text{BT}_n=\text{BT}^n$ for
+computing polynomial squaring continuously:
+$a(x)^{2^n}=\widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}$.
+As we will see in Section~\ref{sub::inversion},
+this is particularly useful in computing the
+inverse of a polynomial.
+\[
+\text{BT}^n =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
+\cdots&\mathbf{1}_{2^n}&0 &\cdots&\cdots \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\mathbf{1}_{(r-2)2^n}&0&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^n}&0\\
+\end{array}
+\right ]
+\]
+%
+In order to compute the coefficient vector $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}^n$, $\text{BT}^n$ must be represented in column view format, \textit{i.e.},
+the row number of the non-zero entry for every column of $\text{BT}^n$. In this form, the squaring of $a(x)$ is essentially the substitutions of the coefficients of $a(x)$:
+\[
+\text{BT}^n =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&\vdots& \vdots&\vdots&\vdots \\
+\vdots&\mathbf{1}_{2^{-n}}&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{(r-2)2^{-n}}&\vdots\\
+\vdots&\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^{-n}}\\
+\end{array}
+\right ]
+\]
 
-\bibliographystyle{abbrv}
-\bibliography{./reference}
+
+\subsection{Remarks on generic multiplication}
+We describe our new algorithm in more details here. Similar to the proposed squaring algorithm,
+another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
+\[
+a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+=
+[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}_{mul,r\times r} \cdot
+\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+\]
+$\text{BT}_{mul}$ is a $r\times r$ matrix where each column/row is a cyclic form of the vector $[b_{r-1},b_{r-2},\ldots, b_{1},b_{0}]$:
+\[
+\text{BT}_{mul} =
+\left[ \begin{array}{cccccc}
+b_{0}&b_{1}&\cdots&b_{d-1}&\cdots &b_{r-1} \\
+b_{r-1}&b_{0}&\cdots&b_{d-2}&\cdots &b_{r-2} \\
+\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+b_{2}&b_{3}&\cdots&b_{d+1}&\cdots &b_{1} \\
+b_{1}&b_{2}&\cdots&b_{d}&\cdots &b_{0} \\
+\end{array}
+\right ]
+\]
+
+\begin{figure*}[!tb]
+\centering
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate.eps}
+\caption{Diagonal Computation}
+\label{fig:gmul_ill1}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate2.eps}
+\caption{Upper Triangle Computation}
+\label{fig:gmul_ill2}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate3.eps}
+\caption{Lower Triangle Computation}
+\label{fig:gmul_ill3}
+\end{subfigure}
+\caption{Illustration for the proposed generic multiplication algorithm}
+\end{figure*}
+Storing the full $\text{BT}_{mul}$ matrix is redundant
+since the blocks along each diagonal are identical
+(for example, $\text{BT}_{mul}[0:d-1,0:d-1] = \text{BT}_{mul}[d:2d-1,d:2d-1] = \ldots$).
+This way, $\text{BT}_{mul}$ is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Figure~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute these parts.
+By eliminating such redundancy, the communication overhead for
+loading $\text{BT}_{mul}$ is minimized which enables a
+fast pipeline scheduling in the generic polynomial multiplication module.
 
 \end{document}
