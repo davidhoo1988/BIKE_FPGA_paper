@@ -1399,11 +1399,11 @@ Goppa code:\\
 % It is seen that for almost the same security level, Goppa codes require much more memory and computation time to generate the public/secret key. Such memory overhead is inevitable in Goppa code schemes as Goppa code cannot benefit from quasi-cyclic construction to compress the key size.
 % Conversely, our work based on quasi-cyclic codes is identified as a scalable lightweight design which shares high-speed and low-storage characteristics.
 
-% \section{Conclusions}
-% \label{sec::conclusion}
-% This paper presented a constant-time hardware-based key generator for BIKE which is among the
-% 2nd round candidate in the NIST PQC standardization process.
-% Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
+ \section{Conclusions}
+ \label{sec::conclusion}
+ This paper presented a constant-time hardware-based key generator for BIKE which is among the
+ 2nd round candidate in the NIST PQC standardization process.
+ Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
 
 %
 % ---- Bibliography ----
@@ -1540,7 +1540,7 @@ the row number of the non-zero entry for every column of $\text{BT}^n$. In this 
 
 
 \subsection{Remarks on generic multiplication}
-We describe our new algorithm in more details here. Similar to the proposed squaring algorithm,
+We describe the proposed generic multiplication algorithm (Alg.~\ref{alg:generic_mul}) in more details here. Similar to the proposed squaring algorithm,
 another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
 \[
 a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=latex 2018.8.10)  3 MAY 2019 15:40
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=latex 2018.8.10)  3 MAY 2019 19:23
 entering extended mode
 **llncs_format_paper.tex
 
@@ -873,18 +873,19 @@ File: ./fig/BIKE-2.eps Graphic file (type eps)
  <./fig/BIKE-2.eps>
 File: ./fig/BIKE-3.eps Graphic file (type eps)
  <./fig/BIKE-3.eps> [16] [17] [18]
+[19]
 ("C:\Users\David\Desktop\BIKE KeyGen\paper\iacrtrans\BIKE_FPGA_paper\llncs_form
-at_paper.bbl" [19] [20] [21]) [22] [23] [24]
+at_paper.bbl" [20] [21]) [22] [23] [24]
 File: ./fig/generic_mul_illustrate.eps Graphic file (type eps)
-
-<./fig/generic_mul_illustrate.eps>
+ <./fig/generic_mul_illustrate.eps>
 File: ./fig/generic_mul_illustrate2.eps Graphic file (type eps)
- <./fig/generic_mul_illustrate2.eps>
-File: ./fig/generic_mul_illustrate3.eps Graphic file (type eps)
 
-<./fig/generic_mul_illustrate3.eps>
+<./fig/generic_mul_illustrate2.eps>
+File: ./fig/generic_mul_illustrate3.eps Graphic file (type eps)
+ <./fig/generic_mul_illustrate3.eps>
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1608.
- [25]
+
+[25]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 1608.
 
 ("C:\Users\David\Desktop\BIKE KeyGen\paper\iacrtrans\BIKE_FPGA_paper\llncs_form
@@ -906,12 +907,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10217 strings out of 495355
- 146205 string characters out of 3183882
- 269165 words of memory out of 3000000
- 13235 multiletter control sequences out of 15000+200000
+ 10218 strings out of 495355
+ 146222 string characters out of 3183882
+ 269203 words of memory out of 3000000
+ 13236 multiletter control sequences out of 15000+200000
  13664 words of font info for 50 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  36i,19n,48p,798b,507s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on llncs_format_paper.dvi (25 pages, 196016 bytes).
+Output written on llncs_format_paper.dvi (25 pages, 197500 bytes).

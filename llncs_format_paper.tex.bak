@@ -497,84 +497,7 @@ Figure~\ref{fig:poly_sparse} illustrates the data structure of $\mathbf{\hat{f}}
 
 \subsection{Polynomial Squaring}
 \label{sub::square}
-Consider the straighforward squaring operation for a random polynomial $a(x)\in \mathcal{R}$:
-\begin{align}
-    a^2(x) &= (a_{r-1}x^{r-1}+a_{r-2}x^{r-2}+\cdots + a_{1}x + a_0)^2\\
-    &= a_{r-1}x^{2(r-1)}+a_{r-2}x^{2(r-2)}+\cdots + a_1x^2 + a_0\\
-    &= \widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}
-\end{align}
-%
-The computation of the coefficients $\widetilde{a_{i}}$ can
-be realized by a matrix multiplication operation,
-which relies on the base transformation matrix BT, as shown follows:
-\[
-a^2(x)= [{a_{0}},{a_{1}},\cdots,{a_{r-1}}]\left[ \begin{array}{c}
-x^{0} \\
-x^{2} \\
-\vdots\\
-x^{2(r-2)}\\
-x^{2(r-1)}
-\end{array}
-\right ]
-=
-[{a_0},{a_1},\cdots,{a_{r-1}}]
-\cdot \text{BT}_{r\times r} \cdot
-\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-\]
-where $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}$ and BT is a $r\times r$ permutation matrix defined as:
-\[
-\text{BT} =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
-\cdots&\mathbf{1}_{2}&0 &\cdots&\cdots \\
-\vdots&\vdots&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\mathbf{1}_{2r-4}&0&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{2r-2}&0\\
-\end{array}
-\right ]
-\]
-$\mathbf{1}_{i}$ represents the ($i\bmod r$)-th (counting from zero) non-zero entry in the corresponding row of the matrix BT.
-%
-More generally, we derive the base transformation matrix $\text{BT}_n=\text{BT}^n$ for
-computing polynomial squaring continuously:
-$a(x)^{2^n}=\widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}$.
-As we will see in Section~\ref{sub::inversion},
-this is particularly useful in computing the
-inverse of a polynomial.
-\[
-\text{BT}^n =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
-\cdots&\mathbf{1}_{2^n}&0 &\cdots&\cdots \\
-\vdots&\vdots&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\mathbf{1}_{(r-2)2^n}&0&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^n}&0\\
-\end{array}
-\right ]
-\]
-%
-In order to compute the coefficient vector $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}^n$, $\text{BT}^n$ must be represented in column view format, \textit{i.e.},
-the row number of the non-zero entry for every column of $\text{BT}^n$. In this form, the squaring of $a(x)$ is essentially the substitutions of the coefficients of $a(x)$:
-\[
-\text{BT}^n =
-\left[ \begin{array}{ccccc}
-\mathbf{1}_{0}&\vdots& \vdots&\vdots&\vdots \\
-\vdots&\mathbf{1}_{2^{-n}}&\vdots&\vdots&\vdots\\
-\vdots&\vdots&\vdots&\mathbf{1}_{(r-2)2^{-n}}&\vdots\\
-\vdots&\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^{-n}}\\
-\end{array}
-\right ]
-\]
-
+In this paper, the general squaring form $(a(x))^{2^n}$ is considered. The following theorem states how to calculate the squaring of a polynomial over $\mathcal{R}$.
 \begin{theorem}
 For squaring $(a(x))^{2^n}=\sum\widetilde{a_{i}}x^i$ of a polynomial $a(x)=\sum a_ix^i \in \mathcal{R}$, each coefficient $\widetilde{a_{i}}$ is updated by $a_{j}$ in $[{a_{r-1}},{a_{r-2}},\cdots,{a_0}]$ as:
 \[
@@ -654,72 +577,6 @@ For software implementations \cite{chou2016qcbits,drucker2017toolbox}, the best 
 similar embedded instructions and moreover, a relatively complex control flow of Karatsuba algorithm will degrade the timing performance on FPGAs.
 These issues drive us to find out a better solution for polynomial multiplications on FPGAs.
 
-
-
-We describe our new algorithm next. As described in Section~\ref{sub::square},
-another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
-\[
-a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-=
-[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
-\cdot \text{BT}_{mul,r\times r} \cdot
-\left[ \begin{array}{c}
-x^{0} \\
-x^{1} \\
-\vdots\\
-x^{r-2}\\
-x^{r-1}
-\end{array}
-\right ]
-\]
-$\text{BT}_{mul}$ is a $r\times r$ matrix where each column/row is a cyclic form of the vector $[b_{r-1},b_{r-2},\ldots, b_{1},b_{0}]$:
-\[
-\text{BT}_{mul} =
-\left[ \begin{array}{cccccc}
-b_{0}&b_{1}&\cdots&b_{d-1}&\cdots &b_{r-1} \\
-b_{r-1}&b_{0}&\cdots&b_{d-2}&\cdots &b_{r-2} \\
-\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
-b_{2}&b_{3}&\cdots&b_{d+1}&\cdots &b_{1} \\
-b_{1}&b_{2}&\cdots&b_{d}&\cdots &b_{0} \\
-\end{array}
-\right ]
-\]
-
-\begin{figure*}[!tb]
-\centering
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate.eps}
-\caption{Diagonal Computation}
-\label{fig:gmul_ill1}
-\end{subfigure}
-\hspace{1em}
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate2.eps}
-\caption{Upper Triangle Computation}
-\label{fig:gmul_ill2}
-\end{subfigure}
-\hspace{1em}
-\begin{subfigure}[t]{0.47\textwidth}\centering
-\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate3.eps}
-\caption{Lower Triangle Computation}
-\label{fig:gmul_ill3}
-\end{subfigure}
-\caption{Illustration for the proposed generic multiplication algorithm}
-\end{figure*}
-Storing the full $\text{BT}_{mul}$ matrix is redundant
-since the blocks along each diagonal are identical
-(for example, $\text{BT}_{mul}[0:d-1,0:d-1] = \text{BT}_{mul}[d:2d-1,d:2d-1] = \ldots$).
-This way, $\text{BT}_{mul}$ is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Figure~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute these parts.
-By eliminating such redundancy, the communication overhead for
-loading $\text{BT}_{mul}$ is minimized which enables a
-fast pipeline scheduling in the generic polynomial multiplication module.
 
 \begin{algorithm}[!tbh]
  \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
@@ -808,7 +665,7 @@ the result back.
 \begin{figure}[!tb]
 \centering
 \includegraphics[width=.55\textwidth]{./fig/dsnmul_core.eps}
-\caption{architectural overview of the core unit in the generic multiplication}\label{fig:gmul_core}
+\caption{Architectural overview of the core unit in the generic multiplication}\label{fig:gmul_core}
 \end{figure}
 
 
@@ -1002,7 +859,7 @@ the inverted polynomial is stored as the result in RAM op0.
 
 
 
-\subsection{Generation of Polynomials with Prescribed Weight}
+\subsection{Generation of Polynomials with Prescribed Weight}\label{sub::polygen}
 
 \begin{algorithm}[!tb]
 \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
@@ -1042,7 +899,7 @@ $wt \gets 0$\;
 \end{algorithm}
 
 Strictly speaking, the execution time of the random polynomial generations proposed in
-Algorithms~\ref{alg:prng1},\ref{alg:prng2} is non-constant.
+Algorithms~\ref{alg:prng1}, \ref{alg:prng2} is non-constant.
 Algorithm~\ref{alg:prng1} optionally performs a step if the
 Hamming weight of the polynomial is an even number;
 Algorithm~\ref{alg:prng2} keeps generating new random numbers
@@ -1143,32 +1000,32 @@ such PRNG must be replaced with a cryptographically secure random number
 generator, \textit{e.g.}, \cite{laue2007compact,cherkaoui2013very}. We require at most $d$ random bits per $T_{\text{PRNG}}$ clock cycles where $T_{\text{PRNG}}=13$ in our settings.
 The average clock cycles for generating a qualified rand number is $T_{\text{PRNG}}' = T_{\text{PRNG}}/Pr(\text{rand} < r)$
 
-\begin{table}[!tb]\centering
-\caption{Cycle counts for generating  one entry of a random polynomial with odd weight}
-\begin{tabular}{c|c|c|c}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  Operation & PRNG & Write & Total \\\hline
-   & $T_{\text{PRNG}}$ & 1  & $T_{\text{PRNG}}$+1 \\
-  \hline
-\end{tabular}
-\vspace{-4mm}
-\end{table}
+%\begin{table}[!tb]\centering
+%\caption{Cycle counts for generating  one entry of a random polynomial with odd weight}
+%\begin{tabular}{c|c|c|c}
+%  \hline
+%  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+%  Operation & PRNG & Write & Total \\\hline
+%   & $T_{\text{PRNG}}$ & 1  & $T_{\text{PRNG}}$+1 \\
+%  \hline
+%\end{tabular}
+%\vspace{-4mm}
+%\end{table}
+%
+%\begin{table}[!tb]\centering
+%\caption{Cycle counts for generating  the i-th entry (i=1,2,...) of a random sparse polynomial with odd weight}
+%\begin{tabular}{c|c|c|c|c|c}
+%  \hline
+%  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+%  Operation & PRNG & Rd\_FIFO & CHECK &Wr\_RAM & Total \\\hline
+%   & $T_{\text{PRNG}}$ & 4  & $i$ & 1 &$T_{\text{PRNG}}+5+i$ \\
+%  \hline
+%\end{tabular}
+%\vspace{-4mm}
+%\end{table}
 
 \begin{table}[!tb]\centering
-\caption{Cycle counts for generating  the i-th entry (i=1,2,...) of a random sparse polynomial with odd weight}
-\begin{tabular}{c|c|c|c|c|c}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  Operation & PRNG & Rd\_FIFO & CHECK &Wr\_RAM & Total \\\hline
-   & $T_{\text{PRNG}}$ & 4  & $i$ & 1 &$T_{\text{PRNG}}+5+i$ \\
-  \hline
-\end{tabular}
-\vspace{-4mm}
-\end{table}
-
-\begin{table}[!tb]\centering
-\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}
+\caption{Cycle counts for generating the sparse polynomial $h_0/h_1$ in BIKE KeyGen}\label{table:spare_ploy_gen}
 \begin{tabular}{cc|ccccc}
   \hline
   % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
@@ -1207,12 +1064,7 @@ If a dual-port RAM is used, the above cycle count estimation can be further impr
 \[
     \left({T''}_{\text{PRNG}}^2 - 4{T''}_{\text{PRNG}} + \frac{T''_{\text{PRNG}}+\lceil w_t/2\rceil+6}{2}(\lceil w_t/2\rceil-T''_{\text{PRNG}}+5)\right)/Pr(\text{Alg.~\ref{alg:prng2} succeeds})
 \]
-where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$
-
-
-{\color{red} mention and explain Table 5, 6 and 7 in the text, if not important,
-can delete one or two}
-
+where ${T''}_{\text{PRNG}}=T_{\text{PRNG}}/{Pr}^2(\text{rand} < r)$. The detailed cycle counts for generating the sparse polynomial $h_0/h_1$ in all BIKE variants are listed in Table~\ref{table:spare_ploy_gen}.
 
 \section{Key Generator Architecture}
 \label{sec::keygen}
@@ -1259,7 +1111,7 @@ since only one SMUL\_CTRL is instantiated in BIKE-3.
 The modules h\_ctrl and g\_ctrl in BIKE-3 represents the
 control logic for
 generating the sparse polynomials $h_0,h_1$ and
-the dense polynomial $g$, as discussed in Section~\ref{}. {\color{red} link to section number here}
+the dense polynomial $g$, as discussed in Section~\ref{sub::polygen}.
 
 The key generator architecture for BIKE-2
 is significantly more expensive compared to
@@ -1279,7 +1131,7 @@ which is the secret key $h=h_0^{-1}h_1$.
 % After inversion, the dense polynomial $h_0^{-1}$ is obtained and finally, the sparse polynomial multiplication is performed on SMUL\_CTRL to extract the secret key $h=h_0^{-1}h_1$.
 
 Similar optimizations as proposed to schedule pipelines
-as described in Section~\ref{} are applied to the
+as described in Section~3 are applied to the
 modules within the BIKE key generator as well:
 % optimization technique is applied to
 g\_ctrl, h\_ctrl, SMUL\_CTRL, and INV\_CTRL.
@@ -1413,16 +1265,6 @@ our design based on QC MDPC codes is a much more lightweight
 design which is also much more efficient and has a
 much smaller memory overhead.
 
-{\color{red} Question: you should synthesize the design on the
-same type of FPGA which means that in Table 11,
-you should synthesize your BIKE design on Virtex-5 instead
-of Virtex-7 for ``fair comparison''.}
-
-{\color{red} Question: in table 11, the security levels are all different?
-How can you compare? throughout the paper, it is not clear
-if 128 means classical security level or
-post-quantum security level?}
-
 % Their design generates a key pair in $3.98 ms$ for 256-bit security on an Ultrascale+ FPGA.
 
 % First, we compare our work with a hardware design from [17], which
@@ -1513,16 +1355,16 @@ speedup is achieved in BIKE-2.
 Scheme &{SL [bit]}&  Implementation & Platform & \tabincell{c}{Performance\\{} [in millions of cycles]}\\
 \hline
 \multirow{3}{*}{\textbf{BIKE-1}} & 128 & Ours, constant-time & FPGA & 0.095\\
-                                & 128 & \cite{aragon2017bike}, non-constant-time & {\color{red} CPU name} & $\approx 0.73$\\
-                                & 128 & \cite{drucker2017toolbox}, {\color{red} constant-time?} & {\color{red} CPU name} & 0.09\\
+                                & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} & $\approx 0.73$\\
+                                & 128 & \cite{drucker2017toolbox}, non-constant-time & {Intel Xeon-8124M} & 0.09\\
 \hline
 \multirow{3}{*}{\textbf{BIKE-2}} & 128 & Ours, constant-time & FPGA & 2.15\\
-                                & 128 & \cite{aragon2017bike}, {\color{red} constant-time?} & {\color{red} CPU name} &$\approx 6.3$\\
-                                & 128 & \cite{drucker2017toolbox}, {\color{red} constant-time?}& {\color{red} CPU name} & 4.38\\
+                                & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} &$\approx 6.3$\\
+                                & 128 & \cite{drucker2017toolbox}, non-constant-time & {Intel Xeon-8124M} & 4.38\\
                                  % & 80 & \cite{maurich2015implementing} & Micro-controller &$\approx 148.5$\\
 \hline
 \multirow{2}{*}{\textbf{BIKE-3}} & 128 & Ours, constant-time & FPGA & 0.098\\
-                                 & 128 & \cite{aragon2017bike}, {\color{red} constant-time?} & {\color{red} CPU name} &$\approx 0.43$ \\
+                                 & 128 & \cite{aragon2017bike}, non-constant-time & {Intel Core-i5} &$\approx 0.43$ \\
 \hline
 \end{tabular}}
 \end{minipage}
@@ -1557,11 +1399,11 @@ Goppa code:\\
 % It is seen that for almost the same security level, Goppa codes require much more memory and computation time to generate the public/secret key. Such memory overhead is inevitable in Goppa code schemes as Goppa code cannot benefit from quasi-cyclic construction to compress the key size.
 % Conversely, our work based on quasi-cyclic codes is identified as a scalable lightweight design which shares high-speed and low-storage characteristics.
 
-% \section{Conclusions}
-% \label{sec::conclusion}
-% This paper presented a constant-time hardware-based key generator for BIKE which is among the
-% 2nd round candidate in the NIST PQC standardization process.
-% Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
+ \section{Conclusions}
+ \label{sec::conclusion}
+ This paper presented a constant-time hardware-based key generator for BIKE which is among the
+ 2nd round candidate in the NIST PQC standardization process.
+ Novel multiplication and squaring algorithms were proposed to accelerate the key generation with low logic overhead. Experimental results show that after a dedicate optimized pipeline scheduling for the proposed algorithms, our work outperforms other code-based hardware key generators in terms of timing performance, logic utilization and memory consumption. This work even beats software implementations with powerful CPUs in terms of cycle count. The methods proposed in this paper are generic and applicable to other code-based schemes if the underlying code is quasi-cyclic.
 
 %
 % ---- Bibliography ----
@@ -1572,16 +1414,19 @@ Goppa code:\\
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
 %
+\bibliographystyle{abbrv}
+\bibliography{./reference}
 
 \newpage
 
 \section*{Appendix}
 %
-{\color{red} need to re-organize appendix and reference here}
-An illustrative example for computing the polynomial inversion used in~\ref{table:ita_example} in shown in the following table:
+
+\subsection{Illustrative example for constant-time ITA used in BIKE}
+We illustrate a concrete instance for computing the polynomial inversion used in BIKE-2 as shown in Table~\ref{table:ita_example}. 
 
 \begin{table}[!tb]\centering
-\caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}\scriptsize
+\caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}
 \label{table:ita_example}
 \begin{tabular}{ccccc}
   \hline
@@ -1613,8 +1458,151 @@ An illustrative example for computing the polynomial inversion used in~\ref{tabl
 \end{tabular}
 \end{table}
 
+\subsection{Proof of Theorem~1}
+We briefly proof Theorem~1 as follows:
+Consider the straighforward squaring operation for a random polynomial $a(x)\in \mathcal{R}$:
+\begin{align}
+    a^2(x) &= (a_{r-1}x^{r-1}+a_{r-2}x^{r-2}+\cdots + a_{1}x + a_0)^2\\
+    &= a_{r-1}x^{2(r-1)}+a_{r-2}x^{2(r-2)}+\cdots + a_1x^2 + a_0\\
+    &= \widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}
+\end{align}
+%
+The computation of the coefficients $\widetilde{a_{i}}$ can
+be realized by a matrix multiplication operation,
+which relies on the base transformation matrix BT, as shown follows:
+\[
+a^2(x)= [{a_{0}},{a_{1}},\cdots,{a_{r-1}}]\left[ \begin{array}{c}
+x^{0} \\
+x^{2} \\
+\vdots\\
+x^{2(r-2)}\\
+x^{2(r-1)}
+\end{array}
+\right ]
+=
+[{a_0},{a_1},\cdots,{a_{r-1}}]
+\cdot \text{BT}_{r\times r} \cdot
+\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+\]
+where $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}$ and BT is a $r\times r$ permutation matrix defined as:
+\[
+\text{BT} =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
+\cdots&\mathbf{1}_{2}&0 &\cdots&\cdots \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\mathbf{1}_{2r-4}&0&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{2r-2}&0\\
+\end{array}
+\right ]
+\]
+$\mathbf{1}_{i}$ represents the ($i\bmod r$)-th (counting from zero) non-zero entry in the corresponding row of the matrix BT.
+%
+More generally, we derive the base transformation matrix $\text{BT}_n=\text{BT}^n$ for
+computing polynomial squaring continuously:
+$a(x)^{2^n}=\widetilde{a_{r-1}}x^{r-1}+\widetilde{a_{r-2}}x^{r-2}+\cdots + \widetilde{a_{1}}x +\widetilde{a_0}$.
+As we will see in Section~\ref{sub::inversion},
+this is particularly useful in computing the
+inverse of a polynomial.
+\[
+\text{BT}^n =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&0&\cdots&\cdots&\cdots  \\
+\cdots&\mathbf{1}_{2^n}&0 &\cdots&\cdots \\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\mathbf{1}_{(r-2)2^n}&0&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^n}&0\\
+\end{array}
+\right ]
+\]
+%
+In order to compute the coefficient vector $[\widetilde{a_{0}},\widetilde{a_{1}},\cdots,\widetilde{a_{r-1}}]=[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}^n$, $\text{BT}^n$ must be represented in column view format, \textit{i.e.},
+the row number of the non-zero entry for every column of $\text{BT}^n$. In this form, the squaring of $a(x)$ is essentially the substitutions of the coefficients of $a(x)$:
+\[
+\text{BT}^n =
+\left[ \begin{array}{ccccc}
+\mathbf{1}_{0}&\vdots& \vdots&\vdots&\vdots \\
+\vdots&\mathbf{1}_{2^{-n}}&\vdots&\vdots&\vdots\\
+\vdots&\vdots&\vdots&\mathbf{1}_{(r-2)2^{-n}}&\vdots\\
+\vdots&\vdots&\vdots&\vdots&\mathbf{1}_{(r-1)2^{-n}}\\
+\end{array}
+\right ]
+\]
 
-\bibliographystyle{abbrv}
-\bibliography{./reference}
+
+\subsection{Remarks on generic multiplication}
+We describe our new algorithm in more details here. Similar to the proposed squaring algorithm,
+another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
+\[
+a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+=
+[{a_{0}},{a_{1}},\cdots,{a_{r-1}}]
+\cdot \text{BT}_{mul,r\times r} \cdot
+\left[ \begin{array}{c}
+x^{0} \\
+x^{1} \\
+\vdots\\
+x^{r-2}\\
+x^{r-1}
+\end{array}
+\right ]
+\]
+$\text{BT}_{mul}$ is a $r\times r$ matrix where each column/row is a cyclic form of the vector $[b_{r-1},b_{r-2},\ldots, b_{1},b_{0}]$:
+\[
+\text{BT}_{mul} =
+\left[ \begin{array}{cccccc}
+b_{0}&b_{1}&\cdots&b_{d-1}&\cdots &b_{r-1} \\
+b_{r-1}&b_{0}&\cdots&b_{d-2}&\cdots &b_{r-2} \\
+\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+b_{2}&b_{3}&\cdots&b_{d+1}&\cdots &b_{1} \\
+b_{1}&b_{2}&\cdots&b_{d}&\cdots &b_{0} \\
+\end{array}
+\right ]
+\]
+
+\begin{figure*}[!tb]
+\centering
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate.eps}
+\caption{Diagonal Computation}
+\label{fig:gmul_ill1}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate2.eps}
+\caption{Upper Triangle Computation}
+\label{fig:gmul_ill2}
+\end{subfigure}
+\hspace{1em}
+\begin{subfigure}[t]{0.47\textwidth}\centering
+\includegraphics[width=\textwidth]{./fig/generic_mul_illustrate3.eps}
+\caption{Lower Triangle Computation}
+\label{fig:gmul_ill3}
+\end{subfigure}
+\caption{Illustration for the proposed generic multiplication algorithm}
+\end{figure*}
+Storing the full $\text{BT}_{mul}$ matrix is redundant
+since the blocks along each diagonal are identical
+(for example, $\text{BT}_{mul}[0:d-1,0:d-1] = \text{BT}_{mul}[d:2d-1,d:2d-1] = \ldots$).
+This way, $\text{BT}_{mul}$ is split into three parts: the central diagonal, the upper triangle, and the lower triangle. Figure~\ref{fig:gmul_ill1}, \ref{fig:gmul_ill2}, and \ref{fig:gmul_ill3} illustrate how to compute these parts.
+By eliminating such redundancy, the communication overhead for
+loading $\text{BT}_{mul}$ is minimized which enables a
+fast pipeline scheduling in the generic polynomial multiplication module.
 
 \end{document}
