@@ -39,6 +39,12 @@ P.~S. Barreto, S.~Gueron, T.~Gueneysu, R.~Misoczki, E.~Persichetti,
 \newblock In {\em IMA International Conference on Cryptography and Coding},
   pages 207--226. Springer, 2017.
 
+\bibitem{bernstein2019classic}
+D.~J. Bernstein, T.~Chou, T.~Lange, R.~Misoczki, R.~Niederhagen,
+  E.~Persichetti, P.~Schwabe, J.~Szefer, and W.~Wang.
+\newblock Classic mceliece: conservative code-based cryptography 30 march 2019.
+\newblock 2019.
+
 \bibitem{chen2016report}
 L.~Chen, S.~Jordan, Y.-K. Liu, D.~Moody, R.~Peralta, R.~Perlner, and
   D.~Smith-Tone.

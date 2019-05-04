@@ -1378,16 +1378,18 @@ Scheme &{SL [bit]}&  Implementation & Platform & \tabincell{c}{Performance\\{} [
 \begin{minipage}{\textwidth}\centering
 \scalebox{0.9}{\begin{tabular}{lcccccccc}
 \hline
-Scheme &\tabincell{c}{SL\\{} [bit]}&Platform &$f$[MHz] & Time/Op & Cycles  & Slices & BRAM\\
+Scheme &\tabincell{c}{SL\\{} [bit]}&Platform &$f$[MHz] & Time/Op & Cycles  & Slices/LUTs/FFs & BRAM\\
 \hline
 MDPC code:\\
-\textbf{Ours (BIKE-1)} & \multirow{3}{*}{\textbf{128}} & \multirow{3}{*}{Virtex-7} & {\textbf{350}}  & $\mathbf{0.273 ms}$& $9.55\times 10^4$  & \textbf{612} & \textbf{7}\\
-\textbf{Ours (BIKE-2)} &  &  & {\textbf{320}}  & $\mathbf{6.719 ms}$& $2.15\times 10^6$  & \textbf{1483} & \textbf{10}\\
-\textbf{Ours (BIKE-3)} &  &  & {\textbf{360}}  & $\mathbf{0.273 ms}$& $9.85\times 10^4$  & \textbf{472} & \textbf{4}\\
+\textbf{Ours (BIKE-1)} & \multirow{3}{*}{\textbf{128}} & \multirow{3}{*}{Virtex-7} & {\textbf{350}}  & $\mathbf{0.273 ms}$& $9.55\times 10^4$  & \textbf{612/1970/1055} & \textbf{7}\\
+\textbf{Ours (BIKE-2)} &  &  & {\textbf{320}}  & $\mathbf{6.719 ms}$& $2.15\times 10^6$  & \textbf{1483/4445/2159} & \textbf{10}\\
+\textbf{Ours (BIKE-3)} &  &  & {\textbf{360}}  & $\mathbf{0.273 ms}$& $9.85\times 10^4$  & \textbf{472/1482/955} & \textbf{4}\\
 \hline
 Goppa code:\\
-\cite{wang2018fpga} &{256} &{Virtex Ultrascale+} & {225}   & $3.98ms$    & $\approx 1.01\times 10^{11}$  & {112,845}& {375}\\
-\cite{wang2018fpga} &{103} &{Virtex 5} & {168}   & $16 ms$    & $\approx 2.72\times 10^6$  & {8171}& {89}\\
+\cite{wang2018fpga} &{256} &{Virtex Ultrascale+} & {225}   & $3.98ms$    & $\approx 1.01\times 10^{11}$  & {---/112845/---}& {375}\\
+\cite{wang2018fpga} &{103} &{Virtex-5} & {168}   & $16 ms$    & $\approx 2.72\times 10^6$  & {8171/19257/20622}& {89}\\
+\cite{bernstein2019classic}&{128} &{Artix-7} & {38.1}   & $41.9 ms$    & $\approx 1.59\times 10^6$  & {---/25327/49383}& {168}\\
+%\cite{},time optimized &{128} &{Artix-7} & {28.6}   & $7.06 ms$    & $\approx 2.02\times 10^5$  & {---/81339/132190}& {236}\\
 % \cite{shoufan2010novel} &{103} &{Virtex 5} & {163}   & $90 ms$    & $\approx 1.47\times 10^7$  & {17,280}& {148}\\
 \hline
 \end{tabular}}
@@ -1423,7 +1425,7 @@ Goppa code:\\
 %
 
 \subsection{Illustrative example for constant-time ITA used in BIKE}
-We illustrate a concrete instance for computing the polynomial inversion used in BIKE-2 as shown in Table~\ref{table:ita_example}. 
+We illustrate a concrete instance for computing the polynomial inversion used in BIKE-2 as shown in Table~\ref{table:ita_example}.
 
 \begin{table}[!tb]\centering
 \caption{An illustrative example for computing polynomial inverse $a^{-1}$ in $\mathbb{F}_2[x]/(x^r+1)$ with $r=10163$ used in BIKE-2. This table explicitly demonstrates step by step a constat-time execution for inverse.}

@@ -1378,16 +1378,18 @@ Scheme &{SL [bit]}&  Implementation & Platform & \tabincell{c}{Performance\\{} [
 \begin{minipage}{\textwidth}\centering
 \scalebox{0.9}{\begin{tabular}{lcccccccc}
 \hline
-Scheme &\tabincell{c}{SL\\{} [bit]}&Platform &$f$[MHz] & Time/Op & Cycles  & Slices & BRAM\\
+Scheme &\tabincell{c}{SL\\{} [bit]}&Platform &$f$[MHz] & Time/Op & Cycles  & Slices/LUTs/FFs & BRAM\\
 \hline
 MDPC code:\\
-\textbf{Ours (BIKE-1)} & \multirow{3}{*}{\textbf{128}} & \multirow{3}{*}{Virtex-7} & {\textbf{350}}  & $\mathbf{0.273 ms}$& $9.55\times 10^4$  & \textbf{612} & \textbf{7}\\
-\textbf{Ours (BIKE-2)} &  &  & {\textbf{320}}  & $\mathbf{6.719 ms}$& $2.15\times 10^6$  & \textbf{1483} & \textbf{10}\\
-\textbf{Ours (BIKE-3)} &  &  & {\textbf{360}}  & $\mathbf{0.273 ms}$& $9.85\times 10^4$  & \textbf{472} & \textbf{4}\\
+\textbf{Ours (BIKE-1)} & \multirow{3}{*}{\textbf{128}} & \multirow{3}{*}{Virtex-7} & {\textbf{350}}  & $\mathbf{0.273 ms}$& $9.55\times 10^4$  & \textbf{612/1970/1055} & \textbf{7}\\
+\textbf{Ours (BIKE-2)} &  &  & {\textbf{320}}  & $\mathbf{6.719 ms}$& $2.15\times 10^6$  & \textbf{1483/4445/2159} & \textbf{10}\\
+\textbf{Ours (BIKE-3)} &  &  & {\textbf{360}}  & $\mathbf{0.273 ms}$& $9.85\times 10^4$  & \textbf{472/1482/955} & \textbf{4}\\
 \hline
 Goppa code:\\
-\cite{wang2018fpga} &{256} &{Virtex Ultrascale+} & {225}   & $3.98ms$    & $\approx 1.01\times 10^{11}$  & {112,845}& {375}\\
-\cite{wang2018fpga} &{103} &{Virtex 5} & {168}   & $16 ms$    & $\approx 2.72\times 10^6$  & {8171}& {89}\\
+\cite{wang2018fpga} &{256} &{Virtex Ultrascale+} & {225}   & $3.98ms$    & $\approx 1.01\times 10^{11}$  & {---/112845/---}& {375}\\
+\cite{wang2018fpga} &{103} &{Virtex-5} & {168}   & $16 ms$    & $\approx 2.72\times 10^6$  & {8171/19257/20622}& {89}\\
+\cite{}             &{128} &{Artix-7} & {38.1}   & $41.9 ms$    & $\approx 1.59\times 10^6$  & {---/25327/49383}& {168}\\
+%\cite{},time optimized &{128} &{Artix-7} & {28.6}   & $7.06 ms$    & $\approx 2.02\times 10^5$  & {---/81339/132190}& {236}\\
 % \cite{shoufan2010novel} &{103} &{Virtex 5} & {163}   & $90 ms$    & $\approx 1.47\times 10^7$  & {17,280}& {148}\\
 \hline
 \end{tabular}}
@@ -1540,7 +1542,7 @@ the row number of the non-zero entry for every column of $\text{BT}^n$. In this 
 
 
 \subsection{Remarks on generic multiplication}
-We describe our new algorithm in more details here. Similar to the proposed squaring algorithm,
+We describe the proposed generic multiplication algorithm (Alg.~\ref{alg:generic_mul}) in more details here. Similar to the proposed squaring algorithm,
 another base transformation matrix $\text{BT}_{mul}$ is used to compute the coefficients $\widetilde{c_{i}}$, shown as follows:
 \[
 a(x)b(x)= [\widetilde{c_{0}},\widetilde{c_{1}},\cdots,\widetilde{c_{r-1}}]\left[ \begin{array}{c}
